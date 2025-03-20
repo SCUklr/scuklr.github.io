@@ -42,7 +42,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory('/blog-frontend/'),
+  history: createWebHistory(),
   routes
 })
 
