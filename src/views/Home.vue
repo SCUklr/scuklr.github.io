@@ -126,9 +126,10 @@ const handleMouseOut = (e) => {
           暴食海獺小姐
         </div>
         <div class="about-content">
-          <img src="/images/profile.jpg" 
+          <img src="https://img.moegirl.org.cn/common/thumb/e/e9/Yanami_Anna.jpg/560px-Yanami_Anna.jpg" 
                alt="山田杏奈" 
-               class="profile-image" />
+               class="profile-image"
+               referrerpolicy="no-referrer" />
           <div class="skills">
             <p>前端开发、测试开发、多视图</p>
           </div>
