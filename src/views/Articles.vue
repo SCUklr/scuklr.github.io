@@ -1,12 +1,13 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { NCard, NPagination, NTime, NTag, NSpace } from 'naive-ui'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import frontMatter from 'front-matter'
 
 const router = useRouter()
+const route = useRoute()
 const articles = ref([])
-const page = ref(1)
+const page = ref(parseInt(route.query.page) || 1)  // 从路由参数获取页码
 const pageSize = 3  // 修改为固定的3篇文章每页
 
 const total = computed(() => articles.value.length)
@@ -72,13 +73,27 @@ onMounted(async () => {
   console.log('Total articles:', total.value)
 })
 
+// 监听路由变化
+watch(
+  () => route.query.page,
+  (newPage) => {
+    if (newPage) {
+      page.value = parseInt(newPage)
+    }
+  },
+  { immediate: true }  // 添加 immediate: true 确保初始化时也执行
+)
+
 const handlePageChange = (newPage) => {
-  page.value = newPage
-  window.scrollTo({ top: 0, behavior: 'smooth' })
+  router.push({
+    path: '/articles',
+    query: { page: newPage }
+  })
 }
 
 const handleArticleClick = (articleId) => {
-  router.push(`/article/${articleId}`)
+  // 在跳转到文章详情时，传递当前页码
+  router.push(`/article/${articleId}?fromPage=${page.value}`)
 }
 </script>
 
@@ -115,10 +130,11 @@ const handleArticleClick = (articleId) => {
     
     <div class="pagination">
       <n-pagination
-        v-model="page"
+        v-model:page="page"
         :page-size="pageSize"
         :total="total"
         :page-count="Math.ceil(total / pageSize)"
+        :default-page="parseInt(route.query.page) || 1"
         show-quick-jumper
         @update:page="handlePageChange"
       />
@@ -142,7 +158,7 @@ const handleArticleClick = (articleId) => {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 60px;
 }
 
 .article-card {
@@ -185,15 +201,16 @@ const handleArticleClick = (articleId) => {
 
 .pagination {
   position: sticky;
-  bottom: 0;
+  bottom: 20px;
   background: #f5f5f5;
-  padding: 20px 0;
+  padding: 20px;
   display: flex;
   justify-content: center;
-  width: 100%;
+  width: calc(100% - 40px);
   border-radius: 8px;
-  margin-top: auto;
+  margin: 40px auto 0;
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 10;
 }
 </style>
 

@@ -132,7 +132,7 @@ const handleMouseOut = (e) => {
         </div>
         <div class="about-content">
           <img src="https://img.moegirl.org.cn/common/thumb/e/e9/Yanami_Anna.jpg/560px-Yanami_Anna.jpg" 
-               alt="山田杏奈" 
+               alt="Yanami Anna" 
                class="profile-image"
                referrerpolicy="no-referrer" />
           <div class="skills">

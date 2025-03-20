@@ -31,7 +31,12 @@ onMounted(async () => {
 })
 
 const goBack = () => {
-  router.push('/articles')
+  // 获取来源页码，如果没有则默认为1
+  const fromPage = route.query.fromPage || 1
+  router.push({
+    path: '/articles',
+    query: { page: fromPage }
+  })
 }
 </script>
 
@@ -68,25 +73,14 @@ const goBack = () => {
         <div class="article-content markdown-body" v-html="article.content"></div>
       </n-card>
     </div>
-
-    <div class="sidebar">
-      <n-card title="目录">
-        <div class="toc">
-          <!-- 这里可以添加文章目录 -->
-        </div>
-      </n-card>
-    </div>
   </div>
 </template>
 
 <style scoped>
 .article-container {
-  display: grid;
-  grid-template-columns: 1fr 300px;
-  gap: 20px;
-  max-width: 1200px;
+  max-width: 800px;
   margin: 0 auto;
-  position: relative;
+  padding: 20px;
 }
 
 .main-content {
@@ -136,16 +130,6 @@ const goBack = () => {
 
 .article-content p {
   margin: 1em 0;
-}
-
-.sidebar {
-  position: sticky;
-  top: 84px;
-  height: fit-content;
-}
-
-.toc {
-  font-size: 0.9em;
 }
 
 /* 添加 Markdown 样式 */
