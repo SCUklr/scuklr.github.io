@@ -12,6 +12,10 @@ const routes = [
     component: Home
   },
   {
+    path: '/home',
+    redirect: '/'
+  },
+  {
     path: '/articles',
     name: 'Articles',
     component: Articles
@@ -30,11 +34,15 @@ const routes = [
     path: '/social',
     name: 'Social',
     component: Social
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    redirect: '/'
   }
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory('/blog-frontend/'),
   routes
 })
 
