@@ -72,7 +72,7 @@ const handleMenuClick = (key) => {
     <n-layout-header class="header" bordered>
       <div class="header-content">
         <div class="logo">
-          <n-avatar round size="large" src="https://img.moegirl.org.cn/common/thumb/c/c1/Yanami_Anna_icon.png/198px-Yanami_Anna_icon.png" />
+          <n-avatar round size="large" src="/images/avatar.png" />
           <span class="site-title">子丘的个人博客</span>
         </div>
         <div class="menu-container">
