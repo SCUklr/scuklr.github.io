@@ -23,15 +23,19 @@ const projects = ref([
   { 
     title: '憧憬成为测开工程师',
     description: '🔧 Python / Selenium / Pytest',
-    color: bgColors[Math.floor(Math.random() * bgColors.length)],
+    color: 'rgba(255, 255, 255, 0.15)',  // 白色背景增加透明度
     backgroundImage: 'url(https://images.dmzj.com/resource/news/2023/08/16/1692180208566984.png)',
+    titleColor: '#333',  // 深色标题
+    descriptionColor: '#444',  // 深色描述文字
     fontFamily: "'Noto Sans SC', sans-serif"
   },
   { 
-    title: '⚽ 曼城死忠',
-    description: 'CITY TILL I DIE',
+    title: '⚽ Manchester City',
+    description: 'Pride in Battle',
     color: bgColors[Math.floor(Math.random() * bgColors.length)],
     hoverImage: 'url(https://th.bing.com/th/id/OIP.X2xqiicXCy0nz2Aq6a9iSAAAAA)',
+    titleColor: '#6CADDF',  // 曼城天蓝色
+    descriptionColor: '#ffffff',  // 白色
     fontFamily: "'Roboto', sans-serif"
   },
   { 
@@ -51,7 +55,8 @@ const projects = ref([
     description: '伊塔洛·卡尔维诺',
     link: 'https://zh.wikipedia.org/wiki/%E4%BC%8A%E5%A1%94%E7%BD%97%C2%B7%E5%8D%A1%E5%B0%94%E7%BB%B4%E8%AF%BA',
     color: bgColors[Math.floor(Math.random() * bgColors.length)],
-    fontFamily: "'Noto Serif SC', serif"
+    fontFamily: "'Noto Serif SC', serif",
+    onClick: () => window.open('https://zh.wikipedia.org/wiki/%E4%BC%8A%E5%A1%94%E7%BD%97%C2%B7%E5%8D%A1%E5%B0%94%E7%BB%B4%E8%AF%BA', '_blank')
   },
   { 
     title: '想去的地方',
@@ -113,8 +118,8 @@ const handleMouseOut = (e) => {
              @mouseover="e => handleMouseOver(e, project)"
              @mouseout="e => handleMouseOut(e, project)">
           <div class="card-content">
-            <h3>{{ project.title }}</h3>
-            <p class="description">{{ project.description }}</p>
+            <h3 :style="{ color: project.titleColor || '#333' }">{{ project.title }}</h3>
+            <p class="description" :style="{ color: project.descriptionColor || '#666' }">{{ project.description }}</p>
           </div>
         </div>
       </div>
@@ -199,6 +204,7 @@ const handleMouseOut = (e) => {
   background-position: center !important;
   position: relative;
   overflow: hidden;
+  background-blend-mode: overlay;  /* 添加混合模式 */
 }
 
 .card-content {
