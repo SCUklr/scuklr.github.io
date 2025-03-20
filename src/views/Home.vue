@@ -83,6 +83,16 @@ const projects = ref([
     fontFamily: "'Ma Shan Zheng', 'Noto Serif SC', serif"
   }
 ])
+
+const handleMouseOver = (e, project) => {
+  if (project.hoverImage) {
+    e.currentTarget.style.setProperty('--hover-image', project.hoverImage)
+  }
+}
+
+const handleMouseOut = (e) => {
+  e.currentTarget.style.setProperty('--hover-image', 'none')
+}
 </script>
 
 <template>
