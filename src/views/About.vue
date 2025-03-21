@@ -37,10 +37,10 @@ import { NCard, NTimeline, NTimelineItem, NDivider } from 'naive-ui'
           
           <n-divider />
           
-          <h2>技能特长</h2>
+          <h2>技术栈</h2>
           <div class="skills">
+            <p><strong>测试开发(Test Development):</strong> Selenium, Pytest, Apifox, Postman</p>
             <p>前端开发(Frontend): HTML, CSS, JavaScript, Vue3, TypeScript</p>
-            <p>测试开发(Test Development): Selenium, Pytest, Apifox, Postman</p>
             <p>其他技能(Other Skills):Git, Docker</p>
           </div>
 

@@ -1,54 +1,69 @@
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'
-import { NCard, NPagination, NTime, NTag, NSpace } from 'naive-ui'
+import { NCard, NPagination, NTime, NTag, NSpace, NInput } from 'naive-ui'
 import { useRouter, useRoute } from 'vue-router'
 import frontMatter from 'front-matter'
 
 const router = useRouter()
 const route = useRoute()
 const articles = ref([])
-const page = ref(parseInt(route.query.page) || 1)  // 从路由参数获取页码
-const pageSize = 3  // 修改为固定的3篇文章每页
+const allArticles = ref([])  // 存储所有文章
+const searchKeyword = ref('')  // 搜索关键词
+const page = ref(parseInt(route.query.page) || 1)
+const pageSize = 3
 
-const total = computed(() => articles.value.length)
+// 根据搜索关键词过滤文章
+const filteredArticles = computed(() => {
+  if (!searchKeyword.value) return allArticles.value
+  const keyword = searchKeyword.value.toLowerCase()
+  return allArticles.value.filter(article => 
+    article.title.toLowerCase().includes(keyword) ||
+    article.description.toLowerCase().includes(keyword) ||
+    article.tags.some(tag => tag.toLowerCase().includes(keyword))
+  )
+})
+
+const total = computed(() => filteredArticles.value.length)
 
 const displayedArticles = computed(() => {
   const start = (page.value - 1) * pageSize
   const end = start + pageSize
-  return articles.value.slice(start, end)
+  return filteredArticles.value.slice(start, end)
 })
 
+// 处理搜索
+const handleSearch = () => {
+  page.value = 1  // 重置页码到第一页
+  router.push({
+    path: '/articles',
+    query: { 
+      page: 1,
+      search: searchKeyword.value
+    }
+  })
+}
+
 onMounted(async () => {
-  // 使用 Vite 的 import.meta.glob 获取所有 Markdown 文件的路径
   const markdownFiles = import.meta.glob('../posts/**/*.md', { as: 'raw' })
-  console.log('Available markdown files:', Object.keys(markdownFiles))
   const loadedArticles = []
 
   for (const path in markdownFiles) {
-    // 跳过 README.md
-    if (path.endsWith('README.md')) {
-      continue
-    }
+    if (path.endsWith('README.md')) continue
 
     try {
       const content = await markdownFiles[path]()
-      console.log('Loading article from path:', path)
       
-      // 检查文件内容是否为空
       if (!content || content.trim() === '') {
         console.warn('Empty file:', path)
         continue
       }
 
       const { attributes } = frontMatter(content)
-      console.log('Parsed frontmatter:', attributes)
       
-      // 从文件路径中提取 ID
       const pathParts = path.split('/')
       const fileName = pathParts[pathParts.length - 1]
       const id = fileName.replace('.md', '')
       
-      // 确保必要的 frontmatter 数据存在
       if (attributes.title && attributes.date) {
         loadedArticles.push({
           id,
@@ -57,48 +72,64 @@ onMounted(async () => {
           tags: attributes.tags || [],
           description: attributes.description || '暂无描述'
         })
-      } else {
-        console.warn('Missing required frontmatter in:', path)
-        console.warn('Current data:', attributes)
       }
     } catch (error) {
       console.error(`Error loading article from ${path}:`, error)
     }
   }
 
-  // 按日期排序，最新的在前面
-  articles.value = loadedArticles.sort((a, b) => new Date(b.date) - new Date(a.date))
+  allArticles.value = loadedArticles.sort((a, b) => new Date(b.date) - new Date(a.date))
   
-  console.log('Loaded articles:', articles.value)
-  console.log('Total articles:', total.value)
+  // 如果URL中有搜索参数，设置搜索关键词
+  if (route.query.search) {
+    searchKeyword.value = route.query.search
+  }
 })
 
-// 监听路由变化
 watch(
-  () => route.query.page,
-  (newPage) => {
-    if (newPage) {
-      page.value = parseInt(newPage)
+  () => route.query,
+  (newQuery) => {
+    if (newQuery.page) {
+      page.value = parseInt(newQuery.page)
+    }
+    if (newQuery.search !== undefined) {
+      searchKeyword.value = newQuery.search
     }
   },
-  { immediate: true }  // 添加 immediate: true 确保初始化时也执行
+  { immediate: true }
 )
 
 const handlePageChange = (newPage) => {
   router.push({
     path: '/articles',
-    query: { page: newPage }
+    query: { 
+      page: newPage,
+      search: searchKeyword.value
+    }
   })
 }
 
 const handleArticleClick = (articleId) => {
-  // 在跳转到文章详情时，传递当前页码
-  router.push(`/article/${articleId}?fromPage=${page.value}`)
+  router.push(`/article/${articleId}?fromPage=${page.value}&search=${searchKeyword.value}`)
 }
 </script>
 
 <template>
   <div class="articles-container">
+    <!-- 搜索框 -->
+    <div class="search-container">
+      <n-input
+        v-model:value="searchKeyword"
+        type="text"
+        placeholder="搜索文章标题、描述或标签..."
+        @keyup.enter="handleSearch"
+      >
+        <template #prefix>
+          🔍
+        </template>
+      </n-input>
+    </div>
+    <!-- 文章栏 -->
     <div class="articles-grid">
       <n-card
         v-for="article in displayedArticles"
@@ -127,7 +158,7 @@ const handleArticleClick = (articleId) => {
         </div>
       </n-card>
     </div>
-    
+    <!-- 页数栏 -->
     <div class="pagination">
       <n-pagination
         v-model:page="page"
@@ -151,14 +182,25 @@ const handleArticleClick = (articleId) => {
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+/* 搜索框容器样式 */
+.search-container {
+  margin-bottom: 20px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .articles-grid {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  margin-bottom: 60px;
+  gap: 15px;
+  margin-bottom: 20px;
 }
 
 .article-card {
@@ -166,9 +208,13 @@ const handleArticleClick = (articleId) => {
   transition: all 0.3s ease;
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(10px);
-  padding: 20px;
+  padding: 15px;
   border-radius: 8px;
-  margin-bottom: 20px;
+  margin-bottom: 0;
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .article-card.hover-effect:hover {
@@ -180,35 +226,36 @@ const handleArticleClick = (articleId) => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .article-title {
   margin: 0;
-  font-size: 1.5em;
+  font-size: 1.3em;
   color: #333;
 }
 
 .article-description {
   color: #666;
-  margin: 12px 0;
-  line-height: 1.6;
+  margin: 8px 0;
+  line-height: 1.5;
+  flex-grow: 1;
 }
 
 .article-footer {
-  margin-top: 12px;
+  margin-top: 8px;
 }
 
 .pagination {
   position: sticky;
   bottom: 20px;
   background: #f5f5f5;
-  padding: 20px;
+  padding: 15px;
   display: flex;
   justify-content: center;
-  width: calc(100% - 40px);
+  width: calc(100% - 30px);
   border-radius: 8px;
-  margin: 40px auto 0;
+  margin: 20px auto 0;
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
   z-index: 10;
 }

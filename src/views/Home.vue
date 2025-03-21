@@ -26,7 +26,7 @@ const projects = ref([
     color: 'rgba(255, 255, 255, 0.15)',  // 白色背景增加透明度
     backgroundImage: 'url(https://images.dmzj.com/resource/news/2023/08/16/1692180208566984.png)',
     titleColor: '#333',  // 深色标题
-    descriptionColor: '#444',  // 深色描述文字
+    descriptionColor: '#800080',  // 紫色描述文字
     fontFamily: "'Noto Sans SC', sans-serif"
   },
   { 
@@ -136,7 +136,7 @@ const handleMouseOut = (e) => {
                class="profile-image"
                referrerpolicy="no-referrer" />
           <div class="skills">
-            <p>前端开发、测试开发、多视图</p>
+            <p>西郊有密林，祝君出重围</p>
           </div>
           <div class="favorites">
             <p>
