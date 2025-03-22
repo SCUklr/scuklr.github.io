@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { NCard, NTag } from 'naive-ui'
+import KanaAnna from '../assets/Kana_Anna.jpg'  // 添加图片导入
 
 const bgColors = [
   'rgba(255, 182, 193, 0.7)',  // 粉色
@@ -16,18 +17,29 @@ const bgColors = [
 const projects = ref([
   { 
     title: '会写点前端',
-    description: '🎨 Vue3 / React / TypeScript',
-    color: bgColors[Math.floor(Math.random() * bgColors.length)],
-    fontFamily: "'Noto Sans SC', 'Source Code Pro', sans-serif"
+    description: '🎨 Vue3 / TypeScript',
+    color: 'rgba(0, 0, 0, 0.2)',  // 降低遮罩深度
+    backgroundImage: `url(${KanaAnna})`,
+    titleColor: '#ffffff',  // 保持白色标题
+    descriptionColor: '#ffffff',  // 描述文字也改为白色
+    fontFamily: "'Noto Sans SC', 'Source Code Pro', sans-serif",
+    textShadow: '1px 1px 3px rgba(0, 0, 0, 0.8)',  // 加重文字阴影
+    cardContentStyle: {  // 只保留内边距
+      padding: '15px'
+    }
   },
   { 
     title: '憧憬成为测开工程师',
     description: '🔧 Python / Selenium / Pytest',
-    color: 'rgba(255, 255, 255, 0.15)',  // 白色背景增加透明度
+    color: 'rgba(0, 0, 0, 0.2)',  // 降低遮罩深度
     backgroundImage: 'url(https://images.dmzj.com/resource/news/2023/08/16/1692180208566984.png)',
-    titleColor: '#333',  // 深色标题
-    descriptionColor: '#800080',  // 紫色描述文字
-    fontFamily: "'Noto Sans SC', sans-serif"
+    titleColor: '#ffffff',  // 保持白色标题
+    descriptionColor: '#ffffff',  // 描述文字也改为白色
+    fontFamily: "'Noto Sans SC', sans-serif",
+    textShadow: '1px 1px 3px rgba(0, 0, 0, 0.8)',  // 加重文字阴影
+    cardContentStyle: {  // 只保留内边距
+      padding: '15px'
+    }
   },
   { 
     title: '⚽ Manchester City',
@@ -83,7 +95,7 @@ const projects = ref([
   },
   { 
     title: '最喜欢的话',
-    description: '愿君多采摘，此物最相思',
+    description: ' ',
     color: bgColors[Math.floor(Math.random() * bgColors.length)],
     fontFamily: "'Ma Shan Zheng', 'Noto Serif SC', serif"
   }
@@ -117,9 +129,15 @@ const handleMouseOut = (e) => {
              @click="project.link ? window.open(project.link, '_blank') : null"
              @mouseover="e => handleMouseOver(e, project)"
              @mouseout="e => handleMouseOut(e, project)">
-          <div class="card-content">
-            <h3 :style="{ color: project.titleColor || '#333' }">{{ project.title }}</h3>
-            <p class="description" :style="{ color: project.descriptionColor || '#666' }">{{ project.description }}</p>
+          <div class="card-content" :style="project.cardContentStyle">
+            <h3 :style="{ 
+              color: project.titleColor || '#333',
+              textShadow: project.textShadow
+            }">{{ project.title }}</h3>
+            <p class="description" :style="{ 
+              color: project.descriptionColor || '#666',
+              textShadow: project.textShadow
+            }">{{ project.description }}</p>
           </div>
         </div>
       </div>
@@ -267,29 +285,31 @@ const handleMouseOut = (e) => {
 
 .sidebar {
   position: fixed;
-  top: 84px; /* header height (64px) + content padding (20px) */
+  top: 104px; /* header height (64px) + content padding (20px) + projects-grid padding (20px) */
   width: 300px;
-  height: calc(100vh - 154px); /* 100vh - header(64px) - footer(60px) - padding(10px) */
+  height: 520px;
   right: max(calc((100vw - 1200px) / 2 + 20px), 20px);
 }
 
 .sidebar-card {
   height: 100%;
   background: #fff;
-  overflow-y: auto;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* 改为 hidden，防止出现滚动条 */
 }
 
 .about-content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
-  padding: 20px 0;
+  gap: 15px; /* 减小间距 */
+  padding: 15px 0; /* 减小内边距 */
 }
 
 .profile-image {
   width: 100%;
-  max-width: 250px;
+  max-width: 200px; /* 减小图片尺寸 */
   height: auto;
   border-radius: 8px;
 }
@@ -301,6 +321,7 @@ const handleMouseOut = (e) => {
 .skills p {
   color: #666;
   margin: 0;
+  font-size: 14px; /* 稍微减小字体大小 */
 }
 
 .favorites {
@@ -310,7 +331,8 @@ const handleMouseOut = (e) => {
 .favorites p {
   color: #666;
   margin: 0;
-  line-height: 1.6;
+  line-height: 1.4; /* 减小行高 */
+  font-size: 14px; /* 稍微减小字体大小 */
 }
 
 .favorites a {
@@ -328,7 +350,7 @@ const handleMouseOut = (e) => {
   justify-content: center;
   align-items: center;
   gap: 20px;
-  margin-top: 20px;
+  margin-top: 15px; /* 减小顶部边距 */
 }
 
 .social-icon {

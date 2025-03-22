@@ -6,19 +6,37 @@ import {
   NLayoutFooter,
   NMenu,
   NAvatar,
-  NBackTop
+  NProgress
 } from 'naive-ui'
 import { 
   HomeOutline,
   BookOutline,
   PeopleOutline,
   SettingsOutline,
-  ArrowUpOutline
 } from '@vicons/ionicons5'
-import { h } from 'vue'
+import { h, ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
+import backgroundImage from '@/assets/background/background_image.png'  // 使用 @ 别名导入图片
 
 const router = useRouter()
+const scrollProgress = ref(0)  // 添加滚动进度状态
+
+// 计算滚动进度的函数
+const calculateScrollProgress = () => {
+  const windowHeight = window.innerHeight
+  const documentHeight = document.documentElement.scrollHeight - windowHeight
+  const scrolled = window.scrollY
+  scrollProgress.value = (scrolled / documentHeight) * 100
+}
+
+// 添加和移除滚动事件监听器
+onMounted(() => {
+  window.addEventListener('scroll', calculateScrollProgress)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', calculateScrollProgress)
+})
 
 // 添加路由导航守卫，每次路由变化时滚动到顶部
 router.beforeEach((to, from, next) => {
@@ -26,33 +44,26 @@ router.beforeEach((to, from, next) => {
   next()
 })
 
-const renderIcon = () => {
-  return h(ArrowUpOutline, {
-    size: 24,
-    color: '#fff'
-  })
-}
-
 const menuOptions = [
   {
     label: '首页',
     key: 'home',
-    icon: HomeOutline
+    icon: () => h(HomeOutline)
   },
   {
     label: '文章',
     key: 'articles',
-    icon: BookOutline
+    icon: () => h(BookOutline)
   },
   {
     label: '社交',
     key: 'social',
-    icon: PeopleOutline
+    icon: () => h(PeopleOutline)
   },
   {
     label: '关于',
     key: 'about',
-    icon: SettingsOutline
+    icon: () => h(SettingsOutline)
   }
 ]
 
@@ -70,6 +81,15 @@ const handleMenuClick = (key) => {
 <template>
   <div class="app-wrapper">
     <n-layout-header class="header" bordered>
+      <n-progress
+        type="line"
+        :percentage="scrollProgress"
+        :height="4"
+        :border-radius="0"
+        :show-indicator="false"
+        :color="'#18a058'"
+        class="reading-progress"
+      />
       <div class="header-content">
         <div class="logo">
           <n-avatar round size="large" 
@@ -96,69 +116,79 @@ const handleMenuClick = (key) => {
         <p>© 2024 子丘的个人博客 | 使用 Vue3 + Naive UI 构建</p>
       </div>
     </n-layout-footer>
-
-    <n-back-top :right="30" 
-                :bottom="30"
-                :visibility-height="100"
-                :duration="500"
-                class="custom-back-top"
-                :style="{
-                  borderRadius: '50%',
-                  backgroundColor: '#18a058',
-                  transition: 'all .3s cubic-bezier(.4, 0, .2, 1)'
-                }"
-                :on-update:show="show => show">
-      <template #icon>
-        {{ renderIcon() }}
-      </template>
-    </n-back-top>
   </div>
 </template>
 
 <style scoped>
+/* 重置基本样式 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 调整整体容器样式 */
 .app-wrapper {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  padding-top: 64px; /* 为固定定位的header预留空间 */
+  background: url('@/assets/background/background_image.png') center/cover no-repeat fixed;
+  position: relative;
 }
 
-/* 添加全局平滑滚动 */
-:root {
-  scroll-behavior: smooth;
-}
-
-/* 优化滚动条样式 */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #c0c0c0;
-  border-radius: 4px;
-  transition: all 0.3s ease;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #a0a0a0;
-}
-
+/* 修改顶部栏样式 */
 .header {
   height: 64px;
-  padding: 0 20px;
+  padding: 4px 20px 0;
   background: #fff;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 1000;
-  transition: transform 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 修改内容区域样式 */
+.content {
+  flex: 1;
+  padding: 20px;
+  margin-top: 64px; /* 为固定顶部栏留出空间 */
+  background: transparent;
+  position: relative;
+  z-index: 1;
+}
+
+/* 修改底部栏样式 */
+.footer {
+  height: 60px;
+  padding: 0 20px;
+  background: #fff;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+  /* 添加弹性布局使内容居中 */
+  display: flex;
+  align-items: center;      /* 垂直居中 */
+  justify-content: center;  /* 水平居中 */
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  color: #666;
+  /* 添加文本居中 */
+  text-align: center;
+  /* 移除可能的默认边距 */
+  padding: 0;
+  /* 确保内容不会超出容器 */
+  width: 100%;
+}
+
+/* 确保段落没有额外边距 */
+.footer-content p {
+  margin: 0;
+  padding: 0;
 }
 
 .header-content {
@@ -167,7 +197,7 @@ const handleMenuClick = (key) => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 100%;
+  height: calc(100% - 4px);
 }
 
 .logo {
@@ -185,36 +215,28 @@ const handleMenuClick = (key) => {
   margin-left: auto;
 }
 
-.content {
-  flex: 1;
-  padding: 20px;
-  background: #f5f5f5;
-  min-height: calc(100vh - 124px); /* 100vh - header(64px) - footer(60px) */
-}
-
 .content-container {
   max-width: 1200px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
-.footer {
-  height: 60px;
-  padding: 0 20px;
-  background: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* 修改进度条样式 */
+.reading-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1001;
 }
 
-.footer-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  color: #666;
+/* 修改进度条容器样式 */
+:deep(.n-progress) {
+  background-color: transparent !important;
 }
 
-.custom-back-top:hover {
-  background-color: #36ad6a !important;
-  transform: translateY(-3px);
-  box-shadow: 0 4px 12px rgba(24, 160, 88, 0.4);
+:deep(.n-progress-content) {
+  background-color: transparent !important;
 }
 </style>

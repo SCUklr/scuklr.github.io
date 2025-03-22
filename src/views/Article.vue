@@ -8,15 +8,6 @@ import { marked } from 'marked'
 const route = useRoute()
 const router = useRouter()
 const article = ref(null)
-const readingProgress = ref(0)
-
-// 计算阅读进度
-const calculateReadingProgress = () => {
-  const element = document.documentElement
-  const totalHeight = element.scrollHeight - element.clientHeight
-  const progress = (element.scrollTop / totalHeight) * 100
-  readingProgress.value = Math.min(Math.max(progress, 0), 100)
-}
 
 onMounted(async () => {
   const articleId = route.params.id
@@ -37,14 +28,6 @@ onMounted(async () => {
   } catch (error) {
     console.error('Failed to load article:', error)
   }
-
-  // 添加滚动事件监听器
-  window.addEventListener('scroll', calculateReadingProgress)
-})
-
-onUnmounted(() => {
-  // 移除滚动事件监听器
-  window.removeEventListener('scroll', calculateReadingProgress)
 })
 
 const goBack = () => {
@@ -59,11 +42,6 @@ const goBack = () => {
 
 <template>
   <div class="article-container" v-if="article">
-    <!-- 添加阅读进度条 -->
-    <div class="reading-progress-bar">
-      <div class="progress" :style="{ width: `${readingProgress}%` }"></div>
-    </div>
-
     <div class="main-content">
       <n-card>
         <template #header>
@@ -326,22 +304,5 @@ const goBack = () => {
   color: inherit;
   background: none;
   padding: 0;
-}
-
-/* 阅读进度条样式 */
-.reading-progress-bar {
-  position: fixed;
-  top: 64px;  /* 与顶部导航栏对齐 */
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background: rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-}
-
-.reading-progress-bar .progress {
-  height: 100%;
-  background: linear-gradient(to right, #18a058, #36ad6a);
-  transition: width 0.2s ease;
 }
 </style> 
