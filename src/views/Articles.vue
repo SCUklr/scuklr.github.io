@@ -1,16 +1,62 @@
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'
-import { NCard, NPagination, NTime, NTag, NSpace, NInput } from 'naive-ui'
+import { NCard, NPagination, NTime, NTag, NSpace, NInput, NSpin } from 'naive-ui'
 import { useRouter, useRoute } from 'vue-router'
 import frontMatter from 'front-matter'
 
 const router = useRouter()
 const route = useRoute()
 const articles = ref([])
-const allArticles = ref([])  // 存储所有文章
-const searchKeyword = ref('')  // 搜索关键词
+const allArticles = ref([])
+const searchKeyword = ref('')
 const page = ref(parseInt(route.query.page) || 1)
 const pageSize = 3
+const isLoading = ref(true)  // 添加加载状态
+
+// 预加载文章列表
+const preloadArticles = async () => {
+  try {
+    const markdownFiles = import.meta.glob('../posts/**/*.md', { as: 'raw' })
+    
+    // 使用 Promise.all 并行加载所有文章
+    const loadPromises = Object.entries(markdownFiles).map(async ([path, loader]) => {
+      if (path.endsWith('README.md')) return null
+      
+      try {
+        const content = await loader()
+        if (!content || content.trim() === '') return null
+
+        const { attributes } = frontMatter(content)
+        const pathParts = path.split('/')
+        const fileName = pathParts[pathParts.length - 1]
+        const id = fileName.replace('.md', '')
+        
+        if (attributes.title && attributes.date) {
+          return {
+            id,
+            title: attributes.title,
+            date: attributes.date,
+            tags: attributes.tags || [],
+            description: attributes.description || '暂无描述'
+          }
+        }
+      } catch (error) {
+        console.error(`Error loading article from ${path}:`, error)
+        return null
+      }
+    })
+
+    const results = await Promise.all(loadPromises)
+    allArticles.value = results
+      .filter(Boolean)  // 过滤掉 null 值
+      .sort((a, b) => new Date(b.date) - new Date(a.date))
+    
+    isLoading.value = false
+  } catch (error) {
+    console.error('Failed to load articles:', error)
+    isLoading.value = false
+  }
+}
 
 // 根据搜索关键词过滤文章
 const filteredArticles = computed(() => {
@@ -43,44 +89,9 @@ const handleSearch = () => {
   })
 }
 
-onMounted(async () => {
-  const markdownFiles = import.meta.glob('../posts/**/*.md', { as: 'raw' })
-  const loadedArticles = []
-
-  for (const path in markdownFiles) {
-    if (path.endsWith('README.md')) continue
-
-    try {
-      const content = await markdownFiles[path]()
-      
-      if (!content || content.trim() === '') {
-        console.warn('Empty file:', path)
-        continue
-      }
-
-      const { attributes } = frontMatter(content)
-      
-      const pathParts = path.split('/')
-      const fileName = pathParts[pathParts.length - 1]
-      const id = fileName.replace('.md', '')
-      
-      if (attributes.title && attributes.date) {
-        loadedArticles.push({
-          id,
-          title: attributes.title,
-          date: attributes.date,
-          tags: attributes.tags || [],
-          description: attributes.description || '暂无描述'
-        })
-      }
-    } catch (error) {
-      console.error(`Error loading article from ${path}:`, error)
-    }
-  }
-
-  allArticles.value = loadedArticles.sort((a, b) => new Date(b.date) - new Date(a.date))
+onMounted(() => {
+  preloadArticles()
   
-  // 如果URL中有搜索参数，设置搜索关键词
   if (route.query.search) {
     searchKeyword.value = route.query.search
   }
@@ -129,47 +140,59 @@ const handleArticleClick = (articleId) => {
         </template>
       </n-input>
     </div>
-    <!-- 文章栏 -->
-    <div class="articles-grid">
-      <n-card
-        v-for="article in displayedArticles"
-        :key="article.id"
-        class="article-card"
-        :class="{ 'hover-effect': true }"
-        @click="handleArticleClick(article.id)"
-      >
-        <div class="article-header">
-          <h2 class="article-title">{{ article.title }}</h2>
-          <n-time :time="new Date(article.date)" format="yyyy-MM-dd" />
-        </div>
-        <p class="article-description">{{ article.description }}</p>
-        <div class="article-footer">
-          <n-space>
-            <n-tag
-              v-for="tag in article.tags"
-              :key="tag"
-              :bordered="false"
-              type="success"
-              size="small"
-            >
-              {{ tag }}
-            </n-tag>
-          </n-space>
-        </div>
-      </n-card>
+
+    <!-- 加载状态 -->
+    <div v-if="isLoading" class="loading-container">
+      <n-spin size="large" description="加载中..." />
     </div>
-    <!-- 页数栏 -->
-    <div class="pagination">
-      <n-pagination
-        v-model:page="page"
-        :page-size="pageSize"
-        :total="total"
-        :page-count="Math.ceil(total / pageSize)"
-        :default-page="parseInt(route.query.page) || 1"
-        show-quick-jumper
-        @update:page="handlePageChange"
-      />
-    </div>
+
+    <!-- 文章列表 -->
+    <template v-else>
+      <div v-if="displayedArticles.length > 0" class="articles-grid">
+        <n-card
+          v-for="article in displayedArticles"
+          :key="article.id"
+          class="article-card"
+          :class="{ 'hover-effect': true }"
+          @click="handleArticleClick(article.id)"
+        >
+          <div class="article-header">
+            <h2 class="article-title">{{ article.title }}</h2>
+            <n-time :time="new Date(article.date)" format="yyyy-MM-dd" />
+          </div>
+          <p class="article-description">{{ article.description }}</p>
+          <div class="article-footer">
+            <n-space>
+              <n-tag
+                v-for="tag in article.tags"
+                :key="tag"
+                :bordered="false"
+                type="success"
+                size="small"
+              >
+                {{ tag }}
+              </n-tag>
+            </n-space>
+          </div>
+        </n-card>
+      </div>
+      <div v-else class="no-results">
+        没有找到相关文章
+      </div>
+
+      <!-- 分页 -->
+      <div v-if="total > pageSize" class="pagination">
+        <n-pagination
+          v-model:page="page"
+          :page-size="pageSize"
+          :total="total"
+          :page-count="Math.ceil(total / pageSize)"
+          :default-page="parseInt(route.query.page) || 1"
+          show-quick-jumper
+          @update:page="handlePageChange"
+        />
+      </div>
+    </template>
   </div>
 </template>
 
@@ -258,6 +281,25 @@ const handleArticleClick = (articleId) => {
   margin: 20px auto 0;
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
   z-index: 10;
+}
+
+/* 添加加载状态样式 */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  width: 100%;
+}
+
+/* 添加无结果样式 */
+.no-results {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
 }
 </style>
 
