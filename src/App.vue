@@ -93,8 +93,8 @@ const handleMenuClick = (key) => {
       <div class="header-content">
         <div class="logo">
           <n-avatar round size="large" 
-                   src="https://img.moegirl.org.cn/common/thumb/c/c1/Yanami_Anna_icon.png/198px-Yanami_Anna_icon.png"
-                   :img-props="{ referrerpolicy: 'no-referrer' }" />
+                  src="https://img.moegirl.org.cn/common/thumb/c/c1/Yanami_Anna_icon.png/198px-Yanami_Anna_icon.png"
+                  :img-props="{ referrerpolicy: 'no-referrer' }" />
           <span class="site-title">子丘的个人博客</span>
         </div>
         <div class="menu-container">
@@ -124,7 +124,7 @@ const handleMenuClick = (key) => {
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  box-sizing: border-box; /* 定义一个元素的盒模型为边框盒模型，此外还有content-box内容盒模型和padding-box内边距盒模型 */
 }
 
 /* 调整整体容器样式 */
@@ -168,7 +168,7 @@ const handleMenuClick = (key) => {
   z-index: 2;
   box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
   /* 添加弹性布局使内容居中 */
-  display: flex;
+  display: flex; /* 定义一个元素的显示类型为弹性布局，此外还有block块级元素inline行内元素和grid网格布局 */
   align-items: center;      /* 垂直居中 */
   justify-content: center;  /* 水平居中 */
 }
