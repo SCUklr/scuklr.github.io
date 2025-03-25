@@ -16,7 +16,7 @@ import {
 } from '@vicons/ionicons5'
 import { h, ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
-import backgroundImage from '@/assets/background/background_image.png'  // 使用 @ 别名导入图片
+import backgroundImage from '@/assets/background/Too_Many_Losing_Heroines!.svg'  // 更新背景图片路径
 
 const router = useRouter()
 const scrollProgress = ref(0)  // 添加滚动进度状态
@@ -132,7 +132,7 @@ const handleMenuClick = (key) => {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: url('@/assets/background/background_image.png') center/cover no-repeat fixed;
+  background: url('@/assets/background/Too_Many_Losing_Heroines!.svg') center/cover no-repeat fixed;
   position: relative;
 }
 
