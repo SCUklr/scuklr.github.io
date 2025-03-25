@@ -6,13 +6,15 @@ import {
   NLayoutFooter,
   NMenu,
   NAvatar,
-  NProgress
+  NProgress,
+  NButton
 } from 'naive-ui'
 import { 
   HomeOutline,
   BookOutline,
   PeopleOutline,
   SettingsOutline,
+  ArrowUpOutline
 } from '@vicons/ionicons5'
 import { h, ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
@@ -20,6 +22,7 @@ import backgroundImage from '@/assets/background/Too_Many_Losing_Heroines!.svg' 
 
 const router = useRouter()
 const scrollProgress = ref(0)  // 添加滚动进度状态
+const showBackToTop = ref(false)  // 添加控制按钮显示的状态
 
 // 计算滚动进度的函数
 const calculateScrollProgress = () => {
@@ -27,6 +30,7 @@ const calculateScrollProgress = () => {
   const documentHeight = document.documentElement.scrollHeight - windowHeight
   const scrolled = window.scrollY
   scrollProgress.value = (scrolled / documentHeight) * 100
+  showBackToTop.value = scrolled > 300  // 当滚动超过300px时显示按钮
 }
 
 // 添加和移除滚动事件监听器
@@ -43,6 +47,14 @@ router.beforeEach((to, from, next) => {
   window.scrollTo(0, 0)
   next()
 })
+
+// 添加回到顶部函数
+const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'  // 平滑滚动
+  })
+}
 
 const menuOptions = [
   {
@@ -116,6 +128,20 @@ const handleMenuClick = (key) => {
         <p>© 2024 子丘的个人博客 | 使用 Vue3 + Naive UI 构建</p>
       </div>
     </n-layout-footer>
+
+    <!-- 添加回到顶部按钮 -->
+    <n-button
+      v-show="showBackToTop"
+      circle
+      type="primary"
+      size="large"
+      class="back-to-top"
+      @click="scrollToTop"
+    >
+      <template #icon>
+        <n-icon size="24"><arrow-up-outline /></n-icon>
+      </template>
+    </n-button>
   </div>
 </template>
 
@@ -238,5 +264,22 @@ const handleMenuClick = (key) => {
 
 :deep(.n-progress-content) {
   background-color: transparent !important;
+}
+
+/* 添加回到顶部按钮样式 */
+.back-to-top {
+  position: fixed;
+  right: 40px;  /* 从20px改为40px，向左移动 */
+  bottom: 80px;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  width: 48px;  /* 设置固定宽度 */
+  height: 48px;  /* 设置固定高度 */
+}
+
+.back-to-top:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 </style>

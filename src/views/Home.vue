@@ -184,221 +184,220 @@ const handleMouseOut = (e) => {
 
 <style scoped>
 .home-container {
-  display: grid;
-  grid-template-columns: 1fr 300px;
-  gap: 20px;
-  margin-bottom: 40px;
-  max-width: 1200px;
-  margin: 0 auto 40px;
-  position: relative;
+  display: grid; /* 使用网格布局 */
+  grid-template-columns: 1fr 300px; /* 定义两列，第一列自适应，第二列宽300px */
+  gap: 20px; /* 列间距为20px */
+  max-width: 1200px; /* 最大宽度为1200px */
+  margin: 0 auto 40px; /* 上边距为0，左右居中，下边距为40px */
+  position: relative; /* 相对定位 */
 }
 
 .main-content {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  display: flex; /* 使用弹性布局 */
+  flex-direction: column; /* 垂直排列子元素 */
+  gap: 20px; /* 子元素间距为20px */
 }
 
 .projects-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  padding: 20px;
+  display: flex; /* 使用弹性布局 */
+  flex-direction: column; /* 垂直排列子元素 */
+  gap: 20px; /* 子元素间距为20px */
+  padding: 20px; /* 内边距为20px */
 }
 
 .project-card {
-  padding: 30px;
-  border-radius: 16px;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
-  height: 250px;
-  width: 66.67%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-size: cover !important;
-  background-position: center !important;
-  position: relative;
-  overflow: hidden;
+  padding: 30px; /* 内边距为30px */
+  border-radius: 16px; /* 圆角半径为16px */
+  backdrop-filter: blur(10px); /* 背景模糊效果 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* 过渡效果 */
+  cursor: pointer; /* 鼠标悬停时显示为手型 */
+  height: 250px; /* 高度为250px */
+  width: 66.67%; /* 宽度为66.67% */
+  display: flex; /* 使用弹性布局 */
+  align-items: center; /* 垂直居中对齐 */
+  justify-content: center; /* 水平居中对齐 */
+  background-size: cover !important; /* 背景图像覆盖 */
+  background-position: center !important; /* 背景图像居中 */
+  position: relative; /* 相对定位 */
+  overflow: hidden; /* 超出部分隐藏 */
   background-blend-mode: overlay;  /* 添加混合模式 */
 }
 
 .card-content {
-  text-align: center;
-  z-index: 1;
+  text-align: center; /* 文本居中对齐 */
+  z-index: 1; /* 设置层级 */
 }
 
 .project-card h3 {
-  margin: 0 0 10px 0;
-  font-size: 24px;
-  color: #333;
+  margin: 0 0 10px 0; /* 上边距为0，下边距为10px */
+  font-size: 24px; /* 字体大小为24px */
+  color: #333; /* 字体颜色为深灰色 */
 }
 
 .description {
-  font-size: 16px;
-  color: #666;
-  margin: 0;
+  font-size: 16px; /* 字体大小为16px */
+  color: #666; /* 字体颜色为灰色 */
+  margin: 0; /* 上下边距为0 */
 }
 
 .project-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: none;
-  transition: all 0.3s ease;
+  content: ''; /* 伪元素内容为空 */
+  position: absolute; /* 绝对定位 */
+  top: 0; /* 顶部对齐 */
+  left: 0; /* 左侧对齐 */
+  right: 0; /* 右侧对齐 */
+  bottom: 0; /* 底部对齐 */
+  background: none; /* 背景为空 */
+  transition: all 0.3s ease; /* 过渡效果 */
 }
 
 .project-card:hover::before {
-  background: var(--hover-image, none);
-  background-size: cover;
-  background-position: center;
-  opacity: 0.8;
+  background: var(--hover-image, none); /* 悬停时背景图像 */
+  background-size: cover; /* 背景图像覆盖 */
+  background-position: center; /* 背景图像居中 */
+  opacity: 0.8; /* 不透明度为0.8 */
 }
 
 .project-card.odd {
   margin-right: 33.33%; /* 右边空出1/3 */
-  animation-delay: calc(0.1s * var(--index, 0));
+  animation-delay: calc(0.1s * var(--index, 0)); /* 动画延迟 */
 }
 
 .project-card.even {
   margin-left: 33.33%; /* 左边空出1/3 */
-  animation-delay: calc(0.1s * var(--index, 0));
+  animation-delay: calc(0.1s * var(--index, 0)); /* 动画延迟 */
 }
 
 .project-card:hover {
-  transform: translateY(-5px) scale(1.02);
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px) scale(1.02); /* 悬停时向上移动5px并放大 */
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15); /* 悬停时阴影效果 */
 }
 
 .project-card .status {
-  font-size: 14px;
-  color: #666;
-  background: rgba(24, 160, 88, 0.1);
-  padding: 4px 8px;
-  border-radius: 4px;
+  font-size: 14px; /* 字体大小为14px */
+  color: #666; /* 字体颜色为灰色 */
+  background: rgba(24, 160, 88, 0.1); /* 背景颜色为淡绿色 */
+  padding: 4px 8px; /* 内边距为4px上下，8px左右 */
+  border-radius: 4px; /* 圆角半径为4px */
 }
 
 .sidebar {
-  position: fixed;
-  top: 104px; /* header height (64px) + content padding (20px) + projects-grid padding (20px) */
-  width: 300px;
-  height: 520px;
-  right: max(calc((100vw - 1200px) / 2 + 20px), 20px);
+  position: fixed; /* 固定定位 */
+  top: 104px; /* 距离顶部104px */
+  width: 300px; /* 宽度为300px */
+  height: 520px; /* 高度为520px */
+  right: max(calc((100vw - 1200px) / 2 + 20px), 20px); /* 右侧位置计算 */
 }
 
 .sidebar-card {
-  height: 100%;
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  overflow: hidden; /* 改为 hidden，防止出现滚动条 */
+  height: 100%; /* 高度为100% */
+  background: #fff; /* 背景颜色为白色 */
+  border-radius: 16px; /* 圆角半径为16px */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+  overflow: hidden; /* 超出部分隐藏，防止出现滚动条 */
 }
 
 .about-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px; /* 减小间距 */
-  padding: 15px 0; /* 减小内边距 */
+  display: flex; /* 使用弹性布局 */
+  flex-direction: column; /* 垂直排列子元素 */
+  align-items: center; /* 水平居中对齐 */
+  gap: 15px; /* 子元素间距为15px */
+  padding: 15px 0; /* 内边距为15px上下 */
 }
 
 .profile-image {
-  width: 100%;
-  max-width: 200px; /* 减小图片尺寸 */
-  height: auto;
-  border-radius: 8px;
+  width: 100%; /* 宽度为100% */
+  max-width: 200px; /* 最大宽度为200px */
+  height: auto; /* 高度自适应 */
+  border-radius: 8px; /* 圆角半径为8px */
 }
 
 .skills {
-  text-align: center;
+  text-align: center; /* 文本居中对齐 */
 }
 
 .skills p {
-  color: #666;
-  margin: 0;
-  font-size: 14px; /* 稍微减小字体大小 */
+  color: #666; /* 字体颜色为灰色 */
+  margin: 0; /* 上下边距为0 */
+  font-size: 14px; /* 字体大小为14px */
 }
 
 .favorites {
-  text-align: center;
+  text-align: center; /* 文本居中对齐 */
 }
 
 .favorites p {
-  color: #666;
-  margin: 0;
-  line-height: 1.4; /* 减小行高 */
-  font-size: 14px; /* 稍微减小字体大小 */
+  color: #666; /* 字体颜色为灰色 */
+  margin: 0; /* 上下边距为0 */
+  line-height: 1.4; /* 行高为1.4 */
+  font-size: 14px; /* 字体大小为14px */
 }
 
 .favorites a {
-  color: #18a058;
-  text-decoration: none;
-  transition: color 0.3s;
+  color: #18a058; /* 链接颜色为绿色 */
+  text-decoration: none; /* 去掉下划线 */
+  transition: color 0.3s; /* 颜色过渡效果 */
 }
 
 .favorites a:hover {
-  color: #36ad6a;
+  color: #36ad6a; /* 悬停时链接颜色变为更亮的绿色 */
 }
 
 .social-icons {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  margin-top: 15px; /* 减小顶部边距 */
+  display: flex; /* 使用弹性布局 */
+  justify-content: center; /* 水平居中对齐 */
+  align-items: center; /* 垂直居中对齐 */
+  gap: 20px; /* 子元素间距为20px */
+  margin-top: 15px; /* 顶部边距为15px */
 }
 
 .social-icon {
-  width: 24px;
-  height: 24px;
-  cursor: pointer;
-  transition: transform 0.3s ease;
+  width: 24px; /* 图标宽度为24px */
+  height: 24px; /* 图标高度为24px */
+  cursor: pointer; /* 鼠标悬停时显示为手型 */
+  transition: transform 0.3s ease; /* 变换过渡效果 */
 }
 
 .social-icon:hover {
-  transform: scale(1.2);
+  transform: scale(1.2); /* 悬停时放大1.2倍 */
 }
 
 .qq-container {
-  position: relative;
-  display: inline-block;
+  position: relative; /* 相对定位 */
+  display: inline-block; /* 行内块元素 */
 }
 
 .qq-tooltip {
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 5px 10px;
-  background-color: rgba(0, 0, 0, 0.8);
-  color: white;
-  border-radius: 4px;
-  font-size: 14px;
-  white-space: nowrap;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s ease;
-  margin-bottom: 5px;
+  position: absolute; /* 绝对定位 */
+  bottom: 100%; /* 底部对齐 */
+  left: 50%; /* 左侧居中 */
+  transform: translateX(-50%); /* 水平居中 */
+  padding: 5px 10px; /* 内边距为5px上下，10px左右 */
+  background-color: rgba(0, 0, 0, 0.8); /* 背景颜色为黑色，透明度为0.8 */
+  color: white; /* 字体颜色为白色 */
+  border-radius: 4px; /* 圆角半径为4px */
+  font-size: 14px; /* 字体大小为14px */
+  white-space: nowrap; /* 不换行 */
+  opacity: 0; /* 初始不透明度为0 */
+  visibility: hidden; /* 初始不可见 */
+  transition: all 0.3s ease; /* 过渡效果 */
+  margin-bottom: 5px; /* 下边距为5px */
 }
 
 .qq-tooltip::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  border-width: 5px;
-  border-style: solid;
-  border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent;
+  content: ''; /* 伪元素内容为空 */
+  position: absolute; /* 绝对定位 */
+  top: 100%; /* 底部对齐 */
+  left: 50%; /* 左侧居中 */
+  transform: translateX(-50%); /* 水平居中 */
+  border-width: 5px; /* 边框宽度为5px */
+  border-style: solid; /* 边框样式为实线 */
+  border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent; /* 边框颜色 */
 }
 
 .qq-container:hover .qq-tooltip {
-  opacity: 1;
-  visibility: visible;
+  opacity: 1; /* 悬停时不透明度变为1 */
+  visibility: visible; /* 悬停时可见 */
 }
 </style> 
