@@ -95,7 +95,7 @@ const projects = ref([
   },
   { 
     title: '最喜欢的话',
-    description: ' ',
+    description: '生命在继续, 死亡不可避免',
     color: bgColors[Math.floor(Math.random() * bgColors.length)],
     fontFamily: "'Ma Shan Zheng', 'Noto Serif SC', serif"
   }
