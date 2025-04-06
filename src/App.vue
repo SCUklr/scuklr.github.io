@@ -93,15 +93,6 @@ const handleMenuClick = (key) => {
 <template>
   <div class="app-wrapper">
     <n-layout-header class="header" bordered>
-      <n-progress
-        type="line"
-        :percentage="scrollProgress"
-        :height="4"
-        :border-radius="0"
-        :show-indicator="false"
-        :color="'#18a058'"
-        class="reading-progress"
-      />
       <div class="header-content">
         <div class="logo">
           <n-avatar round size="large" 
@@ -115,6 +106,15 @@ const handleMenuClick = (key) => {
                   @update:value="handleMenuClick" />
         </div>
       </div>
+      <n-progress
+        type="line"
+        :percentage="scrollProgress"
+        :height="4"
+        :border-radius="0"
+        :show-indicator="false"
+        :color="'#18a058'"
+        class="reading-progress"
+      />
     </n-layout-header>
 
     <n-layout-content class="content">
@@ -175,6 +175,30 @@ const handleMenuClick = (key) => {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.site-title {
+  margin-left: 10px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.menu-container {
+  margin-left: auto;
+}
+
 /* 修改内容区域样式 */
 .content {
   flex: 1;
@@ -217,30 +241,6 @@ const handleMenuClick = (key) => {
   padding: 0;
 }
 
-.header-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: calc(100% - 4px);
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-}
-
-.site-title {
-  margin-left: 10px;
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.menu-container {
-  margin-left: auto;
-}
-
 .content-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -250,8 +250,8 @@ const handleMenuClick = (key) => {
 
 /* 修改进度条样式 */
 .reading-progress {
-  position: absolute;
-  top: 0;
+  position: fixed;
+  top: 60px;
   left: 0;
   right: 0;
   z-index: 1001;

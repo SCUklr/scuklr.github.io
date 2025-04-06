@@ -63,12 +63,6 @@ import { NCard, NTimeline, NTimelineItem, NDivider } from 'naive-ui'
           </n-timeline>
         </div>
       </n-card>
-
-      <n-card title="联系方式" class="contact-card">
-        <div class="contact-info">
-          <p>邮箱:johnsmith10151997@gmail.com</p>
-        </div>
-      </n-card>
     </div>
   </div>
 </template>
@@ -105,20 +99,6 @@ import { NCard, NTimeline, NTimelineItem, NDivider } from 'naive-ui'
 }
 
 .skills p {
-  margin: 8px 0;
-  color: #666;
-}
-
-.contact-card {
-  margin-top: 20px;
-  background: #fff;
-}
-
-.contact-info {
-  padding: 16px 0;
-}
-
-.contact-info p {
   margin: 8px 0;
   color: #666;
 }

@@ -61,43 +61,6 @@ const projects = ref([
     description: '消逝的光芒2 · FM2024',
     color: bgColors[Math.floor(Math.random() * bgColors.length)],
     fontFamily: "'Noto Sans SC', sans-serif"
-  },
-  { 
-    title: '📚 文学偏好',
-    description: '伊塔洛·卡尔维诺',
-    link: 'https://zh.wikipedia.org/wiki/%E4%BC%8A%E5%A1%94%E7%BD%97%C2%B7%E5%8D%A1%E5%B0%94%E7%BB%B4%E8%AF%BA',
-    color: bgColors[Math.floor(Math.random() * bgColors.length)],
-    fontFamily: "'Noto Serif SC', serif",
-    onClick: () => window.open('https://zh.wikipedia.org/wiki/%E4%BC%8A%E5%A1%94%E7%BD%97%C2%B7%E5%8D%A1%E5%B0%94%E7%BB%B4%E8%AF%BA', '_blank')
-  },
-  { 
-    title: '想去的地方',
-    description: '🇦🇷 阿根廷 · 🇵🇹 葡萄牙',
-    color: bgColors[Math.floor(Math.random() * bgColors.length)],
-    fontFamily: "'Noto Sans SC', sans-serif"
-  },
-  { 
-    title: '🚗 驾龄',
-    description: computed(() => {
-      const start = new Date('2024-02-22')
-      const now = new Date()
-      const days = Math.floor((now - start) / (1000 * 60 * 60 * 24))
-      return `${days} 天`
-    }),
-    color: bgColors[Math.floor(Math.random() * bgColors.length)],
-    fontFamily: "'Noto Sans SC', 'Monaco', monospace"
-  },
-  { 
-    title: '🍜 最爱美食',
-    description: '开水白菜',
-    color: bgColors[Math.floor(Math.random() * bgColors.length)],
-    fontFamily: "'Noto Serif SC', serif"
-  },
-  { 
-    title: '最喜欢的话',
-    description: '生命在继续, 死亡不可避免',
-    color: bgColors[Math.floor(Math.random() * bgColors.length)],
-    fontFamily: "'Ma Shan Zheng', 'Noto Serif SC', serif"
   }
 ])
 
