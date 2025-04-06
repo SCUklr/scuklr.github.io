@@ -10,8 +10,16 @@ const articles = ref([])
 const allArticles = ref([])
 const searchKeyword = ref('')
 const page = ref(parseInt(route.query.page) || 1)
-const pageSize = 3
+const pageSize = 5
 const isLoading = ref(true)  // 添加加载状态
+
+// 标签类型到颜色的映射
+const tagTypeMap = {
+  '技术': 'success',
+  '项目': 'warning',
+  '生活': 'info',
+  '其它': 'default'
+}
 
 // 预加载文章列表
 const preloadArticles = async () => {
@@ -167,7 +175,7 @@ const handleArticleClick = (articleId) => {
                 v-for="tag in article.tags"
                 :key="tag"
                 :bordered="false"
-                type="success"
+                :type="tagTypeMap[tag] || 'default'"
                 size="small"
               >
                 {{ tag }}

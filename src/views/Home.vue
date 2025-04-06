@@ -363,4 +363,60 @@ const handleMouseOut = (e) => {
   opacity: 1; /* 悬停时不透明度变为1 */
   visibility: visible; /* 悬停时可见 */
 }
+
+/* 只添加移动端响应式样式 */
+@media screen and (max-width: 768px) {
+  .home-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin: 0 auto 20px;
+    padding: 0 10px;
+  }
+
+  .main-content {
+    order: 2; /* 将主要内容移到下方 */
+  }
+
+  .sidebar {
+    order: 1; /* 将侧边栏移到上方 */
+    position: static;
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+  }
+
+  .sidebar-card {
+    height: auto;
+  }
+
+  .profile-image {
+    max-width: 150px;
+  }
+
+  .projects-grid {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .project-card {
+    width: 100%;
+    margin: 0 !important;
+    height: 200px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .home-container {
+    padding: 0 5px;
+  }
+
+  .project-card {
+    height: 180px;
+  }
+
+  .profile-image {
+    max-width: 120px;
+  }
+}
 </style> 

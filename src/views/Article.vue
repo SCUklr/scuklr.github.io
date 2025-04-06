@@ -9,6 +9,14 @@ const route = useRoute()
 const router = useRouter()
 const article = ref(null)
 
+// 标签类型到颜色的映射
+const tagTypeMap = {
+  '技术': 'success',
+  '项目': 'warning',
+  '生活': 'info',
+  '其它': 'default'
+}
+
 onMounted(async () => {
   const articleId = route.params.id
   try {
@@ -55,13 +63,13 @@ const goBack = () => {
         <div class="article-meta">
           <h1>{{ article.title }}</h1>
           <div class="article-info">
-            <span class="date">{{ article.date }}</span>
+            <span class="date">{{ new Date(article.date).toLocaleDateString('zh-CN') }}</span>
             <n-space>
               <n-tag
                 v-for="tag in article.tags"
                 :key="tag"
                 :bordered="false"
-                type="success"
+                :type="tagTypeMap[tag] || 'default'"
                 size="small"
               >
                 {{ tag }}

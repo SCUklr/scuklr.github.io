@@ -1,7 +1,7 @@
 ---
 title: Hello World
 date: 2024-03-20
-tags: ['博客', '介绍']
+tags: ['生活']
 description: '欢迎来到我的个人博客'
 ---
 

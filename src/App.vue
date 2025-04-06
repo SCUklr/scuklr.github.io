@@ -293,4 +293,48 @@ const handleMenuClick = (key) => {
 .back-to-top:active {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
+
+/* 响应式设计 */
+@media screen and (max-width: 768px) {
+  .desktop-menu {
+    display: none;
+  }
+
+  .mobile-menu-button {
+    display: block;
+  }
+
+  .header {
+    height: 64px;
+    padding: 4px 10px 0;
+  }
+
+  .header-content {
+    height: 100%;
+  }
+
+  .logo {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  .site-title {
+    font-size: 14px;
+    line-height: 1.2;
+    margin-left: 0;
+    white-space: normal;
+    word-break: break-all;
+    max-width: 120px;
+  }
+
+  .n-avatar {
+    display: none;
+  }
+
+  .content {
+    padding: 10px;
+    margin-top: 64px;
+  }
+}
 </style>

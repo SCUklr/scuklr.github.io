@@ -1,7 +1,7 @@
 ---
 title: Vue3项目搭建指南
 date: 2024-03-20
-tags: ['Vue3', '前端开发']
+tags: ['技术']
 description: 从零开始搭建一个基于 Vue3 的现代化前端项目...
 ---
 
