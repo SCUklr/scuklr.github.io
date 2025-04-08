@@ -13,6 +13,7 @@ import {
   HomeOutline,
   BookOutline,
   PeopleOutline,
+  PersonOutline,  // 新添加的图标
   SettingsOutline,
   ArrowUpOutline
 } from '@vicons/ionicons5'
@@ -68,14 +69,14 @@ const menuOptions = [
     icon: () => h(BookOutline)
   },
   {
-    label: '社交',
+    label: '友链',
     key: 'social',
     icon: () => h(PeopleOutline)
   },
   {
-    label: '关于',
+    label: '关于我',
     key: 'about',
-    icon: () => h(SettingsOutline)
+    icon: () => h(PersonOutline)
   }
 ]
 
@@ -125,7 +126,8 @@ const handleMenuClick = (key) => {
 
     <n-layout-footer class="footer" bordered>
       <div class="footer-content">
-        <p>© 2024 子丘的个人博客 | 使用 Vue3 + Naive UI 构建</p>
+        <p>Copyright © 2025- 子丘的个人博客</p>
+        <p>使用 Vue3 + Naive UI 构建</p>
       </div>
     </n-layout-footer>
 
@@ -147,6 +149,10 @@ const handleMenuClick = (key) => {
 
 <style scoped>
 /* 重置基本样式 */
+html {
+  scroll-behavior: smooth;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -166,7 +172,7 @@ const handleMenuClick = (key) => {
 .header {
   height: 64px;
   padding: 4px 20px 0;
-  background: #fff;
+  background: #f5f5f5;
   position: fixed;
   top: 0;
   left: 0;
@@ -211,9 +217,9 @@ const handleMenuClick = (key) => {
 
 /* 修改底部栏样式 */
 .footer {
-  height: 60px;
+  height: 80px;
   padding: 0 20px;
-  background: #fff;
+  background: #f5f5f5;
   position: relative;
   z-index: 2;
   box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
@@ -237,7 +243,7 @@ const handleMenuClick = (key) => {
 
 /* 确保段落没有额外边距 */
 .footer-content p {
-  margin: 0;
+  margin: 4px, 0;
   padding: 0;
 }
 
