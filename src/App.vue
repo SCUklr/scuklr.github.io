@@ -24,6 +24,7 @@ import backgroundImage from '@/assets/background/Too_Many_Losing_Heroines!.svg' 
 const router = useRouter()
 const scrollProgress = ref(0)  // 添加滚动进度状态
 const showBackToTop = ref(false)  // 添加控制按钮显示的状态
+const activeKey = ref('home')  // 添加当前激活的导航项
 
 // 计算滚动进度的函数
 const calculateScrollProgress = () => {
@@ -56,6 +57,20 @@ const scrollToTop = () => {
     behavior: 'smooth'  // 平滑滚动
   })
 }
+
+// 监听路由变化
+router.afterEach((to) => {
+  // 根据路由路径设置激活的导航项
+  if (to.path === '/') {
+    activeKey.value = 'home'
+  } else if (to.path.startsWith('/article/')) {
+    activeKey.value = 'articles'
+  } else {
+    activeKey.value = to.name?.toLowerCase() || 'home'
+  }
+  // 重置阅读进度
+  scrollProgress.value = 0
+})
 
 const menuOptions = [
   {
@@ -103,7 +118,8 @@ const handleMenuClick = (key) => {
         </div>
         <div class="menu-container">
           <n-menu mode="horizontal" 
-                  :options="menuOptions" 
+                  :options="menuOptions"
+                  :value="activeKey"
                   @update:value="handleMenuClick" />
         </div>
       </div>

@@ -64,9 +64,9 @@ const projects = ref([
 // 添加精选文章数据
 const pinnedArticles = ref([
   {
-    id: 'April',
-    title: '谈谈四月份的打算',
-    category: '生活',
+    id: 'How to deploy my personal blog project on GitHub to your local',
+    title: '如何把本博客部署到你的本地',
+    category: '项目',
     date: '2025年4月8日'
   },
   {
@@ -179,20 +179,17 @@ const handleMouseOut = (e) => {
                 <a href="https://mzh.moegirl.org.cn/%E5%85%AB%E5%A5%88%E8%A7%81%E6%9D%8F%E8%8F%9C" target="_blank">八奈见杏菜</a>
               </p>
             </div>
-          </div>
-        </n-card>
-
-        <n-card class="social-card">
-          <div class="social-icons">
-            <a href="https://github.com/SCUklr" target="_blank">
-              <img src="../assets/github-fill.svg" alt="GitHub" class="social-icon" />
-            </a>
-            <a href="https://space.bilibili.com/123352664?spm_id_from=333.1007.0.0" target="_blank">
-              <img src="../assets/bilibili-fill.svg" alt="Bilibili" class="social-icon" />
-            </a>
-            <div class="qq-container">
-              <img src="../assets/QQ.svg" alt="QQ" class="social-icon" />
-              <span class="qq-tooltip">3761297418</span>
+            <div class="social-icons">
+              <a href="https://github.com/SCUklr" target="_blank">
+                <img src="../assets/github-fill.svg" alt="GitHub" class="social-icon" />
+              </a>
+              <a href="https://space.bilibili.com/123352664?spm_id_from=333.1007.0.0" target="_blank">
+                <img src="../assets/bilibili-fill.svg" alt="Bilibili" class="social-icon" />
+              </a>
+              <div class="qq-container">
+                <img src="../assets/QQ.svg" alt="QQ" class="social-icon" />
+                <span class="qq-tooltip">3761297418</span>
+              </div>
             </div>
           </div>
         </n-card>
@@ -356,38 +353,32 @@ const handleMouseOut = (e) => {
 }
 
 .profile-card {
-  height: 440px; /* 稍微减小高度，原来是460px */
+  height: 520px;
   border-radius: 16px !important;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
   background-color: #f9f9f9 !important;
   overflow: hidden;
 }
 
-.social-card {
-  padding: 12px; /* 稍微减小padding，原来是15px */
-  border-radius: 16px !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
-  background-color: #f9f9f9 !important;
-}
-
 .about-content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 15px; /* 稍微减小间距 */
+  gap: 15px;
   padding: 20px;
   height: 100%;
 }
 
 .profile-image {
   width: 100%;
-  max-width: 180px; /* 稍微减小图片尺寸 */
+  max-width: 180px;
   height: auto;
   border-radius: 8px;
 }
 
 .skills {
   text-align: center;
+  margin-top: 10px;
 }
 
 .skills p {
@@ -399,6 +390,7 @@ const handleMouseOut = (e) => {
 
 .favorites {
   text-align: center;
+  margin-top: 10px;
 }
 
 .favorites p {
@@ -422,14 +414,15 @@ const handleMouseOut = (e) => {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 25px; /* 增加图标间距 */
+  gap: 25px;
   padding: 5px 0;
+  margin-top: auto;
 }
 
 .social-icon {
-  width: 22px; /* 稍微调整图标大小 */
+  width: 22px;
   height: 22px;
-  opacity: 0.8; /* 略微调整透明度 */
+  opacity: 0.8;
   transition: all 0.3s ease;
 }
 
