@@ -131,16 +131,21 @@ const handleMenuClick = (key) => {
         :show-indicator="false"
         :color="'#18a058'"
         class="reading-progress"
+        aria-label="阅读进度"
+        :aria-valuenow="scrollProgress"
+        :aria-valuemin="0"
+        :aria-valuemax="100"
+        role="progressbar"
       />
     </n-layout-header>
 
     <n-layout-content class="content">
-      <div class="content-container">
+      <div class="content-container" role="main">
         <router-view></router-view>
       </div>
     </n-layout-content>
 
-    <n-layout-footer class="footer" bordered>
+    <n-layout-footer class="footer" bordered role="contentinfo">
       <div class="footer-content">
         <p>Copyright © 2025- 子丘的个人博客</p>
         <p>使用 Vue3 + Naive UI 构建</p>
@@ -155,6 +160,7 @@ const handleMenuClick = (key) => {
       size="large"
       class="back-to-top"
       @click="scrollToTop"
+      aria-label="返回顶部"
     >
       <template #icon>
         <n-icon size="24"><arrow-up-outline /></n-icon>

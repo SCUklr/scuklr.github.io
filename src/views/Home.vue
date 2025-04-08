@@ -1,8 +1,13 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, defineAsyncComponent } from 'vue'
 import { NCard, NTag } from 'naive-ui'
 import { useRouter } from 'vue-router'
 import KanaAnna from '../assets/Kana_Anna.jpg'  // 添加图片导入
+
+// 使用异步组件延迟加载非关键内容
+const PinnedArticles = defineAsyncComponent(() => 
+  import('../components/PinnedArticles.vue')
+)
 
 const router = useRouter()
 
@@ -61,34 +66,6 @@ const projects = ref([
   }
 ])
 
-// 添加精选文章数据
-const pinnedArticles = ref([
-  {
-    id: 'How to deploy my personal blog project on GitHub to your local',
-    title: '如何把本博客部署到你的本地',
-    category: '项目',
-    date: '2025年4月8日'
-  },
-  {
-    id: 'future-outlook',
-    title: '最近要干的事情',
-    category: '生活',
-    date: '2025年3月20日'
-  },
-  {
-    id: 'hello-world',
-    title: 'Hello World',
-    category: '生活',
-    date: '2024年3月20日'
-  },
-  {
-    id: 'naive-ui-beautify',
-    title: '使用Naive UI美化界面',
-    category: '技术',
-    date: '2024年3月20日'
-  }
-])
-
 const handleArticleClick = (article) => {
   router.push(`/article/${article.id}`)
 }
@@ -102,6 +79,54 @@ const handleMouseOver = (e, project) => {
 const handleMouseOut = (e) => {
   e.currentTarget.style.setProperty('--hover-image', 'none')
 }
+
+// 预加载图片列表
+const criticalImages = [
+  'https://img.moegirl.org.cn/common/thumb/e/e9/Yanami_Anna.jpg/560px-Yanami_Anna.jpg',
+  KanaAnna
+]
+
+const socialIcons = [
+  '../assets/github-fill.svg',
+  '../assets/bilibili-fill.svg',
+  '../assets/QQ.svg'
+]
+
+// 优化资源预加载
+const preloadResources = () => {
+  // 预加载关键图片
+  criticalImages.forEach(src => {
+    const img = new Image()
+    img.src = src
+  })
+
+  // 预加载社交图标
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(() => {
+      socialIcons.forEach(src => {
+        const img = new Image()
+        img.src = src
+      })
+    })
+  }
+
+  // 预加载关键样式
+  const linkElement = document.createElement('link')
+  linkElement.rel = 'preload'
+  linkElement.as = 'style'
+  linkElement.href = '/assets/index-C7w07H3h.css'
+  document.head.appendChild(linkElement)
+}
+
+// 优化图片错误处理
+const handleImageError = (event) => {
+  console.warn('Image failed to load:', event.target.src)
+  event.target.style.opacity = '0.5'  // 显示加载失败的视觉反馈
+}
+
+onMounted(() => {
+  preloadResources()
+})
 
 </script>
 
@@ -136,26 +161,16 @@ const handleMouseOut = (e) => {
           </div>
         </div>
 
-        <div class="pinned-section">
-          <h2 class="section-title">精选文章</h2>
-          <div class="articles-grid">
-            <n-card
-              v-for="article in pinnedArticles"
-              :key="article.id"
-              class="article-card"
-              hoverable
-              @click="handleArticleClick(article)"
-            >
-              <div class="article-content">
-                <h3 class="article-title">{{ article.title }}</h3>
-                <div class="article-meta">
-                  <n-tag size="small" :bordered="false" type="info">{{ article.category }}</n-tag>
-                  <span class="article-date">{{ article.date }}</span>
-                </div>
-              </div>
-            </n-card>
-          </div>
-        </div>
+        <!-- 使用异步组件延迟加载精选文章部分 -->
+        <Suspense>
+          <PinnedArticles />
+          <template #fallback>
+            <div class="loading" role="status" aria-live="polite">
+              <n-spin size="medium" />
+              <span>正在加载文章...</span>
+            </div>
+          </template>
+        </Suspense>
       </div>
 
       <div class="sidebar-container">
@@ -164,10 +179,18 @@ const handleMouseOut = (e) => {
             暴食海獺小姐
           </div>
           <div class="about-content">
-            <img src="https://img.moegirl.org.cn/common/thumb/e/e9/Yanami_Anna.jpg/560px-Yanami_Anna.jpg" 
-                 alt="Yanami Anna" 
-                 class="profile-image"
-                 referrerpolicy="no-referrer" />
+            <img 
+              src="https://img.moegirl.org.cn/common/thumb/e/e9/Yanami_Anna.jpg/560px-Yanami_Anna.jpg"
+              alt="Yanami Anna"
+              width="250"
+              height="250"
+              fetchpriority="high"
+              loading="eager"
+              decoding="async"
+              class="profile-image"
+              referrerpolicy="no-referrer"
+              @error="handleImageError"
+            />
             <div class="skills">
               <p>西郊有密林，祝君出重围</p>
             </div>
@@ -374,6 +397,15 @@ const handleMouseOut = (e) => {
   max-width: 180px;
   height: auto;
   border-radius: 8px;
+  opacity: 0;
+  animation: fadeIn 0.3s ease forwards;
+  transform: translateZ(0);  /* 创建新的图层，优化性能 */
+  will-change: opacity;      /* 提示浏览器优化动画 */
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .skills {
@@ -401,13 +433,21 @@ const handleMouseOut = (e) => {
 }
 
 .favorites a {
-  color: #18a058;
+  color: var(--primary-color);
   text-decoration: none;
   transition: color 0.3s;
+  font-weight: 500;  /* 加粗以提高可读性 */
 }
 
 .favorites a:hover {
-  color: #36ad6a;
+  color: var(--primary-color-hover);
+  text-decoration: underline;  /* 添加下划线提高可访问性 */
+}
+
+/* 添加键盘焦点样式 */
+.favorites a:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
 }
 
 .social-icons {
@@ -424,6 +464,9 @@ const handleMouseOut = (e) => {
   height: 22px;
   opacity: 0.8;
   transition: all 0.3s ease;
+  transform: translateZ(0);  /* 创建新的图层 */
+  will-change: transform, opacity;  /* 提示浏览器优化动画属性 */
+  backface-visibility: hidden;  /* 防止 3D 变换时的闪烁 */
 }
 
 .social-icon:hover {
@@ -517,5 +560,44 @@ const handleMouseOut = (e) => {
   .profile-image {
     max-width: 120px;
   }
+}
+
+.reading-progress {
+  aria-label: "阅读进度";
+}
+
+/* 添加关键样式 */
+:root {
+  --text-color-1: #333;
+  --text-color-3: #666;
+  --primary-color: #0a5a30;  /* 更深的绿色，提高对比度 */
+  --primary-color-hover: #036b28;
+  --tag-bg-color: rgba(10, 90, 48, 0.16);  /* 更深的背景色 */
+}
+
+/* 添加加载状态样式 */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 40px 0;
+}
+
+/* 添加键盘导航支持 */
+.article-card:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+.article-card[role="article"] {
+  position: relative;
+}
+
+/* 添加高对比度标签样式 */
+:deep(.n-tag) {
+  --n-color: var(--tag-bg-color) !important;
+  --n-text-color: var(--primary-color) !important;
+  font-weight: 500;
 }
 </style> 
