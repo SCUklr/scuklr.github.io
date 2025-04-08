@@ -20,6 +20,14 @@ import {
 import { h, ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import backgroundImage from '@/assets/background/Too_Many_Losing_Heroines!.svg'  // 更新背景图片路径
+import { 
+  ROUTE_MAP, 
+  MENU_OPTIONS, 
+  THEME_COLORS, 
+  LAYOUT_CONFIG,
+  SCROLL_CONFIG 
+} from '@/config/constants'
+import '@/styles/common.css'
 
 const router = useRouter()
 const scrollProgress = ref(0)  // 添加滚动进度状态
@@ -38,6 +46,7 @@ const calculateScrollProgress = () => {
 // 添加和移除滚动事件监听器
 onMounted(() => {
   window.addEventListener('scroll', calculateScrollProgress)
+  preloadImages()
 })
 
 onUnmounted(() => {
@@ -72,55 +81,59 @@ router.afterEach((to) => {
   scrollProgress.value = 0
 })
 
-const menuOptions = [
-  {
-    label: '首页',
-    key: 'home',
-    icon: () => h(HomeOutline)
-  },
-  {
-    label: '文章',
-    key: 'articles',
-    icon: () => h(BookOutline)
-  },
-  {
-    label: '友链',
-    key: 'social',
-    icon: () => h(PeopleOutline)
-  },
-  {
-    label: '关于我',
-    key: 'about',
-    icon: () => h(PersonOutline)
-  }
-]
-
 const handleMenuClick = (key) => {
-  const routeMap = {
-    'home': '/',
-    'articles': '/articles',
-    'social': '/social',
-    'about': '/about'
-  }
-  router.push(routeMap[key])
+  router.push(ROUTE_MAP[key])
+}
+
+// 修改菜单选项的图标映射
+const menuOptions = MENU_OPTIONS.map(option => ({
+  ...option,
+  icon: () => h(eval(option.icon))
+}))
+
+// 预加载背景图片
+const preloadImages = () => {
+  const images = [
+    '/background.jpg',  // 替换为你的背景图片路径
+    '/avatar.jpg'       // 替换为你的头像图片路径
+  ]
+  images.forEach(src => {
+    const img = new Image()
+    img.src = src
+  })
 }
 </script>
 
 <template>
   <div class="app-wrapper">
-    <n-layout-header class="header" bordered>
+    <n-layout-header class="header shadow-sm" bordered>
       <div class="header-content">
         <div class="logo">
-          <n-avatar round size="large" 
-                  src="https://img.moegirl.org.cn/common/thumb/c/c1/Yanami_Anna_icon.png/198px-Yanami_Anna_icon.png"
-                  :img-props="{ referrerpolicy: 'no-referrer' }" />
+          <n-avatar 
+            round 
+            size="large" 
+            src="https://img.moegirl.org.cn/common/thumb/c/c1/Yanami_Anna_icon.png/198px-Yanami_Anna_icon.png"
+            :img-props="{ 
+              referrerpolicy: 'no-referrer',
+              alt: '八奈见杏菜头像',
+              loading: 'eager'
+            }" 
+          />
           <span class="site-title">子丘的个人博客</span>
         </div>
         <div class="menu-container">
-          <n-menu mode="horizontal" 
-                  :options="menuOptions"
-                  :value="activeKey"
-                  @update:value="handleMenuClick" />
+          <n-menu 
+            mode="horizontal" 
+            :options="menuOptions"
+            :value="activeKey"
+            @update:value="handleMenuClick"
+            :style="{
+              '--n-item-text-color': THEME_COLORS.menuText,
+              '--n-item-text-color-hover': THEME_COLORS.menuHover,
+              '--n-item-text-color-active': THEME_COLORS.menuActive,
+              '--n-font-weight': '500'
+            }"
+          />
         </div>
       </div>
       <n-progress
@@ -218,9 +231,11 @@ html {
 }
 
 .site-title {
-  margin-left: 10px;
-  font-size: 20px;
-  font-weight: bold;
+  margin-left: 12px;
+  font-size: 20px;  /* 稍微增大字体 */
+  font-weight: 600;  /* 加粗一些 */
+  color: #2c3e50;  /* 深灰蓝色 */
+  letter-spacing: 1px;  /* 增加字间距 */
 }
 
 .menu-container {
@@ -364,5 +379,30 @@ html {
     padding: 10px;
     margin-top: 64px;
   }
+}
+
+/* 添加菜单项过渡动画 */
+.n-menu-item {
+  transition: all 0.3s ease;
+}
+
+.n-menu-item:hover {
+  transform: translateY(-2px);
+}
+
+/* 优化移动端导航栏 */
+@media (max-width: 768px) {
+  .nav-container {
+    padding: 0 12px;
+  }
+  
+  .site-title {
+    font-size: 16px;
+  }
+}
+
+/* 返回顶部按钮平滑滚动 */
+.back-to-top {
+  transition: all 0.3s ease;
 }
 </style>

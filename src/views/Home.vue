@@ -181,7 +181,7 @@ onMounted(() => {
           <div class="about-content">
             <img 
               src="https://img.moegirl.org.cn/common/thumb/e/e9/Yanami_Anna.jpg/560px-Yanami_Anna.jpg"
-              alt="Yanami Anna"
+              alt="八奈见杏菜个人头像 - 来自萌娘百科"
               width="250"
               height="250"
               fetchpriority="high"
