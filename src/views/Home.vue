@@ -64,37 +64,33 @@ const projects = ref([
 // 添加精选文章数据
 const pinnedArticles = ref([
   {
-    id: 1,
+    id: 'April',
     title: '谈谈四月份的打算',
     category: '生活',
-    date: '2025年4月8日',
-    link: '/article/2025/04/April'
+    date: '2025年4月8日'
   },
   {
-    id: 2,
+    id: 'future-outlook',
     title: '最近要干的事情',
     category: '生活',
-    date: '2025年3月20日',
-    link: '/article/2025/03/future-outlook'
+    date: '2025年3月20日'
   },
   {
-    id: 3,
+    id: 'hello-world',
     title: 'Hello World',
     category: '生活',
-    date: '2024年3月20日',
-    link: '/article/2024/hello-world'
+    date: '2024年3月20日'
   },
   {
-    id: 4,
+    id: 'naive-ui-beautify',
     title: '使用Naive UI美化界面',
     category: '技术',
-    date: '2024年3月20日',
-    link: '/article/2024/03/naive-ui-beautify'
+    date: '2024年3月20日'
   }
 ])
 
-const handleArticleClick = (link) => {
-  router.push(link)
+const handleArticleClick = (article) => {
+  router.push(`/article/${article.id}`)
 }
 
 const handleMouseOver = (e, project) => {
@@ -148,7 +144,7 @@ const handleMouseOut = (e) => {
               :key="article.id"
               class="article-card"
               hoverable
-              @click="handleArticleClick(article.link)"
+              @click="handleArticleClick(article)"
             >
               <div class="article-content">
                 <h3 class="article-title">{{ article.title }}</h3>
