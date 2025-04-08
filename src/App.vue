@@ -9,6 +9,7 @@ import {
   NProgress,
   NButton
 } from 'naive-ui'
+import { h } from 'vue'
 import { 
   HomeOutline,
   BookOutline,
@@ -17,7 +18,7 @@ import {
   SettingsOutline,
   ArrowUpOutline
 } from '@vicons/ionicons5'
-import { h, ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import backgroundImage from '@/assets/background/Too_Many_Losing_Heroines!.svg'  // 更新背景图片路径
 import { 
@@ -86,9 +87,16 @@ const handleMenuClick = (key) => {
 }
 
 // 修改菜单选项的图标映射
+const iconMap = {
+  HomeOutline,
+  BookOutline,
+  PeopleOutline,
+  PersonOutline
+}
+
 const menuOptions = MENU_OPTIONS.map(option => ({
   ...option,
-  icon: () => h(eval(option.icon))
+  icon: () => h(iconMap[option.icon])
 }))
 
 // 预加载背景图片
