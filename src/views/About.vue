@@ -5,44 +5,46 @@ import { NCard, NTimeline, NTimelineItem, NDivider } from 'naive-ui'
 <template>
   <div class="about-container">
     <div class="main-content">
-      <n-card title="关于我">
+      <n-card>
         <div class="about-content">
-          <h2>院校背景 (Educational Background)</h2>
-          <div class="education-item">
-            <div class="education-left">
-              <p class="date">2021.9-2025.6</p>
-              <p class="university">四川大学</p>
-              <p class="university-en">Sichuan University</p>
+          <h1 class="main-title">About me</h1>
+
+          <h2 class="section-title">教育背景 (Education Background)</h2>
+          <div class="school-info">
+            <div class="school-header">
+              <h2>四川大学 (Sichuan University)</h2>
+              <span class="date">2021.9-2025.6</span>
             </div>
-            <div class="education-right">
-              <p class="major">软件工程</p>
-              <p class="major-en">Software Engineering</p>
-              <p class="degree">工学学士</p>
-              <p class="degree-en">Bachelor of Engineering</p>
+            <div class="degree-info">
+              <span class="major">软件工程 (Software Engineering)</span>
+              <span class="degree">工学学士 (Bachelor of Engineering)</span>
             </div>
           </div>
-          <div class="education-item">
-            <div class="education-left">
-              <p class="date">2025.9-2026.11</p>
-              <p class="university">香港中文大学</p>
-              <p class="university-en">The Chinese University of Hong Kong</p>
+
+          <div class="school-info">
+            <div class="school-header">
+              <h2>香港中文大学 (The Chinese University of Hong Kong)</h2>
+              <span class="date">2025.9-2026.11</span>
             </div>
-            <div class="education-right">
-              <p class="major">信息工程</p>
-              <p class="major-en">Information Engineering</p>
-              <p class="degree">理学硕士</p>
-              <p class="degree-en">Master of Science</p>
+            <div class="degree-info">
+              <span class="major">信息工程 (Information Engineering)</span>
+              <span class="degree">理学硕士 (Master of Science)</span>
             </div>
           </div>
           
           <n-divider />
           
-          <h2>技术栈</h2>
+          <h2 class="section-title">技术栈</h2>
           <div class="skills">
             <p><strong>测试开发(Test Development):</strong> Selenium, Pytest, Apifox, Postman</p>
-            <p>前端开发(Frontend): HTML, CSS, JavaScript, Vue3, TypeScript</p>
-            <p>其他技能(Other Skills):Git, Docker</p>
+            <p><strong>前端开发(Frontend):</strong> HTML, CSS, JavaScript, Vue3, TypeScript</p>
+            <p><strong>深度学习(Deep Learning):</strong> NLP、Multi-view Clustering</p>
           </div>
+
+          <n-divider />
+
+          <h2>科研成果</h2>
+          <p>To be continued...</p>
 
           <n-divider />
 
@@ -149,27 +151,87 @@ import { NCard, NTimeline, NTimelineItem, NDivider } from 'naive-ui'
 }
 
 .major {
-  font-size: 16px;
-  color: #18a058;
-  margin-bottom: 4px;
-}
-
-.major-en {
+  color: #333;
   font-size: 14px;
-  color: #666;
-  font-style: italic;
+  font-weight: 500;
 }
 
 .degree {
-  font-size: 14px;
   color: #666;
-  margin-top: 8px;
-  margin-bottom: 2px;
+  font-size: 16px;
+  font-style: italic;
 }
 
-.degree-en {
-  font-size: 13px;
+/* 添加新的内容项样式 */
+.content-item {
+  margin: 8px 0 16px 0;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 8px;
+}
+
+.content-item p {
+  margin: 4px 0;
+}
+
+/* 学校信息样式 */
+.school-info {
+  margin-bottom: 24px;
+}
+
+.school-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.school-header h2 {
+  color: #333;
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.date {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+.degree-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.major {
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.degree {
   color: #666;
+  font-size: 14px;
   font-style: italic;
+}
+
+/* 主标题样式 */
+.main-title {
+  text-align: center;
+  font-size: 32px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+/* 章节标题样式 */
+.section-title {
+  color: #333;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 24px 0 16px 0;
 }
 </style> 
