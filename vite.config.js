@@ -4,7 +4,7 @@ import { resolve } from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/scuklr.github.io/',  // 设置为你的仓库名
+  base: '/',  // 修改为根路径，因为是部署在根域名
   plugins: [vue()],
   resolve: {
     alias: {
