@@ -6,6 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="referrer" content="no-referrer" />
     <title>子丘的个人博客</title>
+    <!-- 预加载关键CSS -->
+    <link rel="preload" href="/src/style.css" as="style">
+    <!-- 异步加载CSS -->
+    <link rel="stylesheet" href="/src/style.css" media="print" onload="this.media='all'">
+    <!-- 备用方案 -->
+    <noscript>
+      <link rel="stylesheet" href="/src/style.css">
+    </noscript>
     <script>
       // 恢复路由
       (function() {
