@@ -3,6 +3,7 @@ import { ref, computed, onMounted, defineAsyncComponent } from 'vue'
 import { NCard, NTag } from 'naive-ui'
 import { useRouter } from 'vue-router'
 import KanaAnna from '../assets/Kana_Anna.jpg'  // 添加图片导入
+import frontMatter from 'front-matter'
 
 // 使用异步组件延迟加载非关键内容
 const PinnedArticles = defineAsyncComponent(() => 
@@ -10,6 +11,7 @@ const PinnedArticles = defineAsyncComponent(() =>
 )
 
 const router = useRouter()
+const recentArticles = ref([])
 
 const bgColors = [
   'rgba(255, 182, 193, 0.7)',  // 粉色
@@ -66,6 +68,40 @@ const projects = ref([
   }
 ])
 
+// 获取最近文章
+const loadRecentArticles = async () => {
+  try {
+    const markdownFiles = import.meta.glob('../posts/**/*.md', { as: 'raw' })
+    const articles = []
+
+    for (const path in markdownFiles) {
+      if (path.endsWith('README.md')) continue
+      
+      const content = await markdownFiles[path]()
+      const { attributes } = frontMatter(content)
+      const pathParts = path.split('/')
+      const fileName = pathParts[pathParts.length - 1]
+      const id = fileName.replace('.md', '')
+      
+      if (attributes.title && attributes.date) {
+        articles.push({
+          id,
+          title: attributes.title,
+          date: attributes.date
+        })
+      }
+    }
+
+    // 按日期排序并获取最新的5篇
+    recentArticles.value = articles
+      .sort((a, b) => new Date(b.date) - new Date(a.date))
+      .slice(0, 5)
+  } catch (error) {
+    console.error('Failed to load recent articles:', error)
+  }
+}
+
+// 处理文章点击
 const handleArticleClick = (article) => {
   router.push(`/article/${article.id}`)
 }
@@ -126,6 +162,7 @@ const handleImageError = (event) => {
 
 onMounted(() => {
   preloadResources()
+  loadRecentArticles()
 })
 
 </script>
@@ -176,7 +213,7 @@ onMounted(() => {
       <div class="sidebar-container">
         <n-card class="profile-card">
           <div class="title" style="text-align: center; font-family: 'Noto Sans JP', sans-serif; background: linear-gradient(to right, #00f, #0ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-            暴食海獺小姐
+            Ziqiu's Blog
           </div>
           <div class="about-content">
             <img 
@@ -197,9 +234,9 @@ onMounted(() => {
             <div class="favorites">
               <p>
                 我永远喜欢
-                <a href="https://mzh.moegirl.org.cn/%E5%B1%B1%E7%94%B0%E6%9D%8F%E5%A5%88" target="_blank">山田杏奈</a>
+                <a href="https://mzh.moegirl.org.cn/%E5%B1%B1%E7%94%B0%E6%9D%8F%E5%A5%88" target="_blank">山田杏奈(Yamada Anna)</a>
                 和
-                <a href="https://mzh.moegirl.org.cn/%E5%85%AB%E5%A5%88%E8%A7%81%E6%9D%8F%E8%8F%9C" target="_blank">八奈见杏菜</a>
+                <a href="https://mzh.moegirl.org.cn/%E5%85%AB%E5%A5%88%E8%A7%81%E6%9D%8F%E8%8F%9C" target="_blank">八奈见杏菜(Yanami Anna)</a>
               </p>
             </div>
             <div class="social-icons">
@@ -330,9 +367,9 @@ onMounted(() => {
 }
 
 .articles-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
 .article-card {
@@ -369,14 +406,10 @@ onMounted(() => {
   width: 300px;
   position: fixed;
   right: calc((100% - 1200px) / 2 + 20px);
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  top: 100px; /* 调整顶部位置，原来是124px */
+  top: 100px;
 }
 
 .profile-card {
-  height: 520px;
   border-radius: 16px !important;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
   background-color: #f9f9f9 !important;
@@ -387,48 +420,38 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 15px;
   padding: 20px;
-  height: 100%;
 }
 
 .profile-image {
   width: 100%;
-  max-width: 180px;
+  max-width: 150px;
   height: auto;
   border-radius: 8px;
-  opacity: 0;
-  animation: fadeIn 0.3s ease forwards;
-  transform: translateZ(0);  /* 创建新的图层，优化性能 */
-  will-change: opacity;      /* 提示浏览器优化动画 */
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  margin-bottom: 15px;
 }
 
 .skills {
   text-align: center;
-  margin-top: 10px;
+  margin: 15px 0;
 }
 
 .skills p {
   color: #666;
-  margin: 5px 0;
-  font-size: 13px;
+  margin: 0;
+  font-size: 14px;
   line-height: 1.5;
 }
 
 .favorites {
   text-align: center;
-  margin-top: 10px;
+  margin: 15px 0;
 }
 
 .favorites p {
   color: #666;
-  margin: 5px 0;
-  font-size: 13px;
+  margin: 0;
+  font-size: 14px;
   line-height: 1.5;
 }
 
@@ -436,42 +459,30 @@ onMounted(() => {
   color: var(--primary-color);
   text-decoration: none;
   transition: color 0.3s;
-  font-weight: 500;  /* 加粗以提高可读性 */
 }
 
 .favorites a:hover {
   color: var(--primary-color-hover);
-  text-decoration: underline;  /* 添加下划线提高可访问性 */
-}
-
-/* 添加键盘焦点样式 */
-.favorites a:focus-visible {
-  outline: 2px solid var(--primary-color);
-  outline-offset: 2px;
+  text-decoration: underline;
 }
 
 .social-icons {
   display: flex;
   justify-content: center;
-  align-items: center;
-  gap: 25px;
-  padding: 5px 0;
-  margin-top: auto;
+  gap: 20px;
+  margin-top: 15px;
 }
 
 .social-icon {
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   opacity: 0.8;
   transition: all 0.3s ease;
-  transform: translateZ(0);  /* 创建新的图层 */
-  will-change: transform, opacity;  /* 提示浏览器优化动画属性 */
-  backface-visibility: hidden;  /* 防止 3D 变换时的闪烁 */
 }
 
 .social-icon:hover {
-  transform: scale(1.2);
   opacity: 1;
+  transform: scale(1.1);
 }
 
 .qq-container {
@@ -599,5 +610,13 @@ onMounted(() => {
   --n-color: var(--tag-bg-color) !important;
   --n-text-color: var(--primary-color) !important;
   font-weight: 500;
+}
+
+/* 删除近期文章卡片样式 */
+.recent-posts-card,
+.recent-post-item,
+.post-title,
+.post-date {
+  display: none;
 }
 </style> 

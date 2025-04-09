@@ -34,7 +34,12 @@ const pinnedArticles = ref([
 ])
 
 const handleArticleClick = (article) => {
-  router.push(`/article/${article.id}`)
+  router.push({
+    path: `/article/${article.id}`,
+    query: {
+      from: router.currentRoute.value.fullPath
+    }
+  })
 }
 </script>
 

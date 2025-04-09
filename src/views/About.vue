@@ -71,14 +71,20 @@ import { NCard, NTimeline, NTimelineItem, NDivider } from 'naive-ui'
 
 <style scoped>
 .about-container {
-  display: contents;
+  width: 100%;
+  min-height: calc(100vh - 144px);  /* 减去头部和底部的高度 */
+  display: flex;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 .main-content {
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  margin-bottom: 40px; /* 增加与底部的距离 */
 }
 
 .about-content {

@@ -39,12 +39,12 @@ onMounted(async () => {
 })
 
 const goBack = () => {
-  // 获取来源页码，如果没有则默认为1
-  const fromPage = route.query.fromPage || 1
-  router.push({
-    path: '/articles',
-    query: { page: fromPage }
-  })
+  // 如果有来源路由，则返回到来源路由
+  if (route.query.from) {
+    router.push(route.query.from)
+  } else {
+    router.back()
+  }
 }
 </script>
 
@@ -55,7 +55,7 @@ const goBack = () => {
         <template #header>
           <div class="article-header">
             <n-button text @click="goBack">
-              ← 返回文章列表
+              ← Back
             </n-button>
           </div>
         </template>
@@ -86,7 +86,7 @@ const goBack = () => {
 
 <style scoped>
 .article-container {
-  max-width: 800px;
+  max-width: 65%;
   margin: 0 auto;
   padding: 20px;
 }
@@ -104,20 +104,27 @@ const goBack = () => {
 }
 
 .article-meta {
-  margin-bottom: 2em;
+  margin-bottom: 1.5em;
+  padding-bottom: 0.8em;
+  border-bottom: 1px solid #eaecef;
+  text-align: center;
 }
 
 .article-meta h1 {
   margin: 0 0 0.5em 0;
-  font-size: 2em;
-  color: #333;
+  font-size: 2.2em;
+  color: #2c3e50;
+  font-weight: 600;
+  text-align: center;
 }
 
 .article-info {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 1em;
   color: #666;
+  margin-bottom: 0.2em;
 }
 
 .date {
@@ -145,7 +152,8 @@ const goBack = () => {
   font-size: 16px;
   line-height: 1.8;
   color: #24292e;
-  margin: -60px 0 0 0;  /* 添加负的上边距 */
+  margin: 0;
+  padding-top: 15px;
 }
 
 :deep(.markdown-body h1) {
@@ -157,8 +165,8 @@ const goBack = () => {
 
 :deep(.markdown-body h2) {
   font-size: 1.5em;
-  margin-top: 24px;
-  margin-bottom: 16px;
+  margin-top: 1.2em;
+  margin-bottom: 0.8em;
   padding-bottom: 0.3em;
   border-bottom: 1px solid #eaecef;
 }
@@ -275,8 +283,8 @@ const goBack = () => {
 }
 
 .article-meta {
-  margin-bottom: 2em;
-  padding-bottom: 1em;
+  margin-bottom: 1.5em;
+  padding-bottom: 0.8em;
   border-bottom: 1px solid #eaecef;
 }
 
@@ -292,6 +300,7 @@ const goBack = () => {
   align-items: center;
   gap: 1em;
   color: #666;
+  margin-bottom: 0.2em;
 }
 
 .date {
@@ -312,5 +321,20 @@ const goBack = () => {
   color: inherit;
   background: none;
   padding: 0;
+}
+
+/* 适配移动端 */
+@media screen and (max-width: 768px) {
+  .article-container {
+    max-width: 90%;
+    padding: 10px;
+  }
+}
+
+/* 确保文章内容在大屏幕上也有合适的宽度 */
+@media screen and (min-width: 1600px) {
+  .article-container {
+    max-width: 1000px;
+  }
 }
 </style> 

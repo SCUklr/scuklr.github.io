@@ -7,7 +7,8 @@ import {
   NMenu,
   NAvatar,
   NProgress,
-  NButton
+  NButton,
+  NIcon
 } from 'naive-ui'
 import { h } from 'vue'
 import { 
@@ -18,9 +19,13 @@ import {
   SettingsOutline,
   ArrowUpOutline
 } from '@vicons/ionicons5'
+import homeIcon from '@/assets/icon/首页.svg'
+import articleIcon from '@/assets/icon/文章.svg'
+import linkIcon from '@/assets/icon/链接.svg'
+import aboutIcon from '@/assets/icon/用户.svg'
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
-import backgroundImage from '@/assets/background/Too_Many_Losing_Heroines!.svg'  // 更新背景图片路径
+import backgroundImage from '@/assets/background/wallhaven-d69eom.jpg'  // 更新背景图片路径
 import { 
   ROUTE_MAP, 
   MENU_OPTIONS, 
@@ -34,6 +39,8 @@ const router = useRouter()
 const scrollProgress = ref(0)  // 添加滚动进度状态
 const showBackToTop = ref(false)  // 添加控制按钮显示的状态
 const activeKey = ref('home')  // 添加当前激活的导航项
+const lastScrollPosition = ref({})  // 添加滚动位置记录
+const fromRoute = ref(null)  // 添加来源路由记录
 
 // 计算滚动进度的函数
 const calculateScrollProgress = () => {
@@ -44,20 +51,51 @@ const calculateScrollProgress = () => {
   showBackToTop.value = scrolled > 300  // 当滚动超过300px时显示按钮
 }
 
-// 添加和移除滚动事件监听器
-onMounted(() => {
-  window.addEventListener('scroll', calculateScrollProgress)
-  preloadImages()
-})
+// 记录当前页面的滚动位置
+const saveScrollPosition = () => {
+  lastScrollPosition.value[router.currentRoute.value.fullPath] = window.scrollY
+}
 
-onUnmounted(() => {
-  window.removeEventListener('scroll', calculateScrollProgress)
-})
+// 恢复页面的滚动位置
+const restoreScrollPosition = (path) => {
+  if (lastScrollPosition.value[path]) {
+    setTimeout(() => {
+      window.scrollTo(0, lastScrollPosition.value[path])
+    }, 100)
+  }
+}
 
-// 添加路由导航守卫，每次路由变化时滚动到顶部
+// 修改路由导航守卫
 router.beforeEach((to, from, next) => {
-  window.scrollTo(0, 0)
+  // 保存来源路由信息
+  if (to.name === 'article') {
+    fromRoute.value = from
+    saveScrollPosition()
+  }
   next()
+})
+
+// 监听路由变化
+router.afterEach((to, from) => {
+  // 根据路由路径设置激活的导航项
+  if (to.path === '/') {
+    activeKey.value = 'home'
+  } else if (to.path.startsWith('/article/')) {
+    activeKey.value = 'articles'
+  } else {
+    activeKey.value = to.name?.toLowerCase() || 'home'
+  }
+
+  // 如果是从文章页面返回，恢复滚动位置
+  if (from.name === 'article' && fromRoute.value) {
+    restoreScrollPosition(fromRoute.value.fullPath)
+    fromRoute.value = null
+  } else if (to.name !== 'article') {
+    window.scrollTo(0, 0)
+  }
+  
+  // 重置阅读进度
+  scrollProgress.value = 0
 })
 
 // 添加回到顶部函数
@@ -68,36 +106,27 @@ const scrollToTop = () => {
   })
 }
 
-// 监听路由变化
-router.afterEach((to) => {
-  // 根据路由路径设置激活的导航项
-  if (to.path === '/') {
-    activeKey.value = 'home'
-  } else if (to.path.startsWith('/article/')) {
-    activeKey.value = 'articles'
-  } else {
-    activeKey.value = to.name?.toLowerCase() || 'home'
-  }
-  // 重置阅读进度
-  scrollProgress.value = 0
-})
-
 const handleMenuClick = (key) => {
   router.push(ROUTE_MAP[key])
 }
 
 // 修改菜单选项的图标映射
-const iconMap = {
-  HomeOutline,
-  BookOutline,
-  PeopleOutline,
-  PersonOutline
+const renderIcon = (icon) => {
+  return () => h(NIcon, null, { default: () => h('img', { src: icon, style: 'width: 18px; height: 18px;' }) })
 }
 
-const menuOptions = MENU_OPTIONS.map(option => ({
-  ...option,
-  icon: () => h(iconMap[option.icon])
-}))
+const menuOptions = MENU_OPTIONS.map(option => {
+  const iconMap = {
+    HomeOutline: homeIcon,
+    BookOutline: articleIcon,
+    PeopleOutline: linkIcon,
+    PersonOutline: aboutIcon
+  }
+  return {
+    ...option,
+    icon: renderIcon(iconMap[option.icon])
+  }
+})
 
 // 预加载背景图片
 const preloadImages = () => {
@@ -110,6 +139,19 @@ const preloadImages = () => {
     img.src = src
   })
 }
+
+// 在组件挂载时添加滚动事件监听
+onMounted(() => {
+  window.addEventListener('scroll', calculateScrollProgress)
+  window.addEventListener('scroll', saveScrollPosition)
+  preloadImages()
+})
+
+// 在组件卸载时移除事件监听
+onUnmounted(() => {
+  window.removeEventListener('scroll', calculateScrollProgress)
+  window.removeEventListener('scroll', saveScrollPosition)
+})
 </script>
 
 <template>
@@ -141,7 +183,16 @@ const preloadImages = () => {
               '--n-item-text-color-active': THEME_COLORS.menuActive,
               '--n-font-weight': '500'
             }"
-          />
+          >
+            <template #item="{ option }">
+              <n-menu-item :value="option.key">
+                <template #icon>
+                  <n-icon :size="20" :component="option.icon" />
+                </template>
+                <span>{{ option.label }}</span>
+              </n-menu-item>
+            </template>
+          </n-menu>
         </div>
       </div>
       <n-progress
@@ -162,7 +213,7 @@ const preloadImages = () => {
 
     <n-layout-content class="content">
       <div class="content-container" role="main">
-        <router-view></router-view>
+        <router-view />
       </div>
     </n-layout-content>
 
@@ -207,7 +258,7 @@ html {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: url('@/assets/background/Too_Many_Losing_Heroines!.svg') center/cover no-repeat fixed;
+  background: url('@/assets/background/wallhaven-d69eom.jpg') center/cover no-repeat fixed;
   position: relative;
 }
 
@@ -240,21 +291,43 @@ html {
 
 .site-title {
   margin-left: 12px;
-  font-size: 20px;  /* 稍微增大字体 */
-  font-weight: 600;  /* 加粗一些 */
-  color: #2c3e50;  /* 深灰蓝色 */
-  letter-spacing: 1px;  /* 增加字间距 */
+  font-size: 20px;
+  font-weight: 600;
+  color: #2c3e50;
+  letter-spacing: 1px;
 }
 
 .menu-container {
   margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+:deep(.n-menu) {
+  display: flex;
+  justify-content: flex-end;
+}
+
+:deep(.n-menu-item) {
+  padding: 0 16px !important;  /* 减小内边距，使菜单项更紧凑 */
+  margin: 0 !important;  /* 移除外边距 */
+  height: 50px !important;  /* 统一高度 */
+  line-height: 50px !important;  /* 确保文字垂直居中 */
+}
+
+:deep(.n-menu-item-content) {
+  padding: 0 !important;  /* 移除内容区域的内边距 */
+}
+
+:deep(.n-menu-item-content__icon) {
+  margin-right: 4px !important;  /* 减小图标和文字的间距 */
 }
 
 /* 修改内容区域样式 */
 .content {
   flex: 1;
   padding: 20px;
-  margin-top: 64px; /* 为固定顶部栏留出空间 */
+  margin-top: 64px;
   background: transparent;
   position: relative;
   z-index: 1;
@@ -268,21 +341,16 @@ html {
   position: relative;
   z-index: 2;
   box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
-  /* 添加弹性布局使内容居中 */
-  display: flex; /* 定义一个元素的显示类型为弹性布局，此外还有block块级元素inline行内元素和grid网格布局 */
-  align-items: center;      /* 垂直居中 */
-  justify-content: center;  /* 水平居中 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .footer-content {
   max-width: 1200px;
   margin: 0 auto;
   color: #666;
-  /* 添加文本居中 */
   text-align: center;
-  /* 移除可能的默认边距 */
-  padding: 0;
-  /* 确保内容不会超出容器 */
   width: 100%;
 }
 
@@ -390,11 +458,11 @@ html {
 }
 
 /* 添加菜单项过渡动画 */
-.n-menu-item {
+:deep(.n-menu-item) {
   transition: all 0.3s ease;
 }
 
-.n-menu-item:hover {
+:deep(.n-menu-item:hover) {
   transform: translateY(-2px);
 }
 
