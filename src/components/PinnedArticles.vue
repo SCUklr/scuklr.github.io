@@ -72,6 +72,8 @@ const handleArticleClick = (article) => {
 .pinned-section {
   width: 100%;
   padding: 0;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .section-title {
@@ -81,26 +83,31 @@ const handleArticleClick = (article) => {
 }
 
 .articles-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  flex-direction: column;
   gap: 20px;
 }
 
 .article-card {
   cursor: pointer;
-  transition: transform 0.3s ease;
+  transition: all 0.3s ease;
+  border-radius: 8px !important;
+  background: rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(10px);
+  width: 100%;
 }
 
 .article-card:hover {
   transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1) !important;
 }
 
 .article-content {
-  padding: 16px;
+  padding: 20px;
 }
 
 .article-title {
-  font-size: 18px;
+  font-size: 20px;
   margin-bottom: 12px;
   color: var(--text-color-1);
 }
@@ -117,8 +124,8 @@ const handleArticleClick = (article) => {
 }
 
 @media screen and (max-width: 768px) {
-  .articles-grid {
-    grid-template-columns: 1fr;
+  .pinned-section {
+    padding: 0 15px;
   }
 }
 </style> 
