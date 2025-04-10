@@ -55,7 +55,7 @@ const projects = ref([
     title: '⚽ Manchester City',
     description: 'Pride in Battle',
     color: bgColors[Math.floor(Math.random() * bgColors.length)],
-    hoverImage: 'url(https://th.bing.com/th/id/OIP.X2xqiicXCy0nz2Aq6a9iSAAAAA)',
+    hoverImage: 'url(https://mancity-oss.glossa-ai.com/wxxcc/wesite/logo.svg)',
     titleColor: '#6CADDF',
     descriptionColor: '#ffffff',
     fontFamily: "'Roboto', sans-serif"
