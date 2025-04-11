@@ -85,18 +85,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-    
+  
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '16'
-        
+      
       - name: Install Dependencies
         run: npm install
-      
+    
       - name: Build
         run: npm run build
-      
+    
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
@@ -110,6 +110,10 @@ jobs:
 git add .
 git commit -m "添加 GitHub Actions 配置"
 git push origin main
+npm run deploy
+这个 deploy 命令会：
+运行 npm run build 构建项目
+使用 gh-pages 将构建后的 dist 目录推送到 GitHub Pages 分支
 ```
 
 ### 自定义配置
@@ -139,7 +143,6 @@ tags: ['标签1', '标签2']
 
 ## 项目结构
 
-
 blog-frontend/
 
 ├── src/
@@ -161,7 +164,6 @@ blog-frontend/
 ├── public/ # 公共资源
 
 └── index.html # HTML 模板
-
 
 ## 技术栈
 

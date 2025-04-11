@@ -43,11 +43,6 @@ import { NCard, NTimeline, NTimelineItem, NDivider } from 'naive-ui'
 
           <n-divider />
 
-          <h2>科研成果</h2>
-          <p>To be continued...</p>
-
-          <n-divider />
-
           <h2>时间线</h2>
           <n-timeline>
             <n-timeline-item type="success" title="2025.2-">

@@ -15,17 +15,17 @@ import {
   HomeOutline,
   BookOutline,
   PeopleOutline,
-  PersonOutline,  // 新添加的图标
-  SettingsOutline,
+  PersonOutline,
   ArrowUpOutline
 } from '@vicons/ionicons5'
 import homeIcon from '@/assets/icon/首页.svg'
 import articleIcon from '@/assets/icon/文章.svg'
 import linkIcon from '@/assets/icon/链接.svg'
 import aboutIcon from '@/assets/icon/用户.svg'
+import researchIcon from '@/assets/icon/科研.svg'  // 添加科研图标导入
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
-import backgroundImage from '@/assets/background/wallhaven-d69eom.jpg'  // 更新背景图片路径
+import backgroundImage from '@/assets/background/wallhaven-d69eom.jpg'
 import { 
   ROUTE_MAP, 
   MENU_OPTIONS, 
@@ -120,11 +120,12 @@ const menuOptions = MENU_OPTIONS.map(option => {
     HomeOutline: homeIcon,
     BookOutline: articleIcon,
     PeopleOutline: linkIcon,
-    PersonOutline: aboutIcon
+    PersonOutline: aboutIcon,
+    research: researchIcon  // 添加科研图标映射
   }
   return {
     ...option,
-    icon: renderIcon(iconMap[option.icon])
+    icon: renderIcon(iconMap[option.icon] || iconMap[option.key])  // 修改这里以支持通过 key 查找图标
   }
 })
 
