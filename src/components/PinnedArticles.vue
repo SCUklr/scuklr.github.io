@@ -14,10 +14,10 @@ const pinnedArticles = ref([
     date: '2025年4月8日'
   },
   {
-    id: 'future-outlook',
-    title: '最近要干的事情',
-    category: '生活',
-    date: '2025年3月20日'
+    id: 'blog-dev-diary',
+    title: '博客开发日记',
+    category: '技术',
+    date: '2024年3月20日'
   },
   {
     id: 'hello-world',

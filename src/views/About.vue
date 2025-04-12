@@ -36,9 +36,9 @@ import { NCard, NTimeline, NTimelineItem, NDivider } from 'naive-ui'
           
           <h2 class="section-title">技术栈</h2>
           <div class="skills">
-            <p><strong>测试开发(Test Development):</strong> Selenium, Pytest, Apifox, Postman</p>
-            <p><strong>前端开发(Frontend):</strong> HTML, CSS, JavaScript, Vue3, TypeScript</p>
-            <p><strong>深度学习(Deep Learning):</strong> NLP、Multi-view Clustering</p>
+            <p><strong>测试开发(Test Development):</strong> <strong>Selenium, Playwright, Cypress, Pytest</strong>, Apifox, Postman, Jmeter</p>
+            <p><strong>前端开发(Frontend):</strong> <strong>Vue3, Vite, Vitest, TypeScript, </strong>HTML, CSS, JavaScript</p>
+            <p><strong>深度学习(Deep Learning):</strong> NLP, <strong>Multi-view Clustering</strong></p>
           </div>
 
           <n-divider />

@@ -22,7 +22,12 @@ onMounted(async () => {
   try {
     // 动态导入对应的 Markdown 文件
     const markdownFiles = import.meta.glob('../posts/**/*.md', { as: 'raw' })
-    const matchingFile = Object.keys(markdownFiles).find(path => path.includes(articleId))
+    // 更精确的文件匹配
+    const matchingFile = Object.keys(markdownFiles).find(path => {
+      const pathParts = path.split('/')
+      const fileName = pathParts[pathParts.length - 1]
+      return fileName === `${articleId}.md`
+    })
     
     if (matchingFile) {
       const content = await markdownFiles[matchingFile]()
@@ -32,9 +37,13 @@ onMounted(async () => {
         ...attributes,
         content: marked(body)  // 将 Markdown 转换为 HTML
       }
+    } else {
+      console.error('Article not found:', articleId)
+      router.push('/404')  // 重定向到 404 页面
     }
   } catch (error) {
     console.error('Failed to load article:', error)
+    router.push('/404')  // 重定向到 404 页面
   }
 })
 
@@ -86,28 +95,29 @@ const goBack = () => {
 
 <style scoped>
 .article-container {
-  max-width: 65%;
+  max-width: 800px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 0 20px;
 }
 
 .main-content {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  margin: 20px 0;
 }
 
-.article-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.main-content :deep(.n-card) {
+  margin: 0;
+  padding: 24px;
 }
 
 .article-meta {
-  margin-bottom: 1.5em;
-  padding-bottom: 0.8em;
+  margin: 1.5em auto;
+  padding-bottom: 1em;
   border-bottom: 1px solid #eaecef;
   text-align: center;
+  max-width: 90%;
 }
 
 .article-meta h1 {
@@ -115,7 +125,6 @@ const goBack = () => {
   font-size: 2.2em;
   color: #2c3e50;
   font-weight: 600;
-  text-align: center;
 }
 
 .article-info {
@@ -132,6 +141,7 @@ const goBack = () => {
 }
 
 .article-content {
+  padding: 0;
   line-height: 1.8;
   color: #333;
 }
@@ -272,7 +282,7 @@ const goBack = () => {
 .article-container {
   max-width: 800px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 0 20px;
 }
 
 .main-content :deep(.n-card) {
@@ -283,9 +293,11 @@ const goBack = () => {
 }
 
 .article-meta {
-  margin-bottom: 1.5em;
-  padding-bottom: 0.8em;
+  margin: 1.5em auto;
+  padding-bottom: 1em;
   border-bottom: 1px solid #eaecef;
+  text-align: center;
+  max-width: 90%;
 }
 
 .article-meta h1 {
@@ -326,15 +338,14 @@ const goBack = () => {
 /* 适配移动端 */
 @media screen and (max-width: 768px) {
   .article-container {
-    max-width: 90%;
-    padding: 10px;
+    padding: 0 16px;
   }
 }
 
-/* 确保文章内容在大屏幕上也有合适的宽度 */
+/* 大屏幕优化 */
 @media screen and (min-width: 1600px) {
   .article-container {
-    max-width: 1000px;
+    max-width: 900px;
   }
 }
 </style> 

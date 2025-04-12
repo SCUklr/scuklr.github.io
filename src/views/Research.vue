@@ -24,14 +24,13 @@ const scrollToSection = (sectionId) => {
                     <h2>Kong Lingran</h2>
                     <p>Sichuan University</p>
                     <div class="contact-info">
-                        <p><i class="fas fa-envelope"></i> Email: your.email@example.com</p>
-                        <p><i class="fas fa-map-marker"></i> Location: Chengdu, China</p>
+                        <p><i class="fas fa-envelope"></i> Email: 122790291klr@gmail.com</p>
+                        <p><i class="fas fa-map-marker"></i> Location: Chengdu, Chongqing, Hong Kong, China</p>
                     </div>
                     <div class="social-links">
                         <a href="https://github.com/yourusername" target="_blank">
                             <i class="fab fa-github"></i>
                         </a>
-                        <!-- 添加其他社交媒体链接 -->
                     </div>
                 </div>
             </n-card>
@@ -54,7 +53,14 @@ const scrollToSection = (sectionId) => {
                 <!-- About Me 部分 -->
                 <section id="about-me">
                     <h2>About Me</h2>
-                    <p>这里添加您的个人介绍</p>
+                    <div class="research-interests">
+                        <p><strong>Kong Lingran (孔令然)</strong> is an undergraduate student at the College of Computer Science, Sichuan University. He will complete his bachelor's degree in June 2025 and will pursue an MSc degree at The Chinese University of Hong Kong starting from September 2025. His research interests mainly focus on <strong>Multi-view Clustering</strong>.</p>
+                        
+                        <h3>Research Interests</h3>
+                        <ul>
+                            <li><strong>Multi-view Clustering</strong>: Developing algorithms that can effectively integrate information from multiple views or perspectives of data, with a particular focus on incorporating Information Bottleneck theory into the clustering process.</li>
+                        </ul>
+                    </div>
                 </section>
 
                 <n-divider />
@@ -104,7 +110,7 @@ const scrollToSection = (sectionId) => {
 
 .sidebar {
     position: sticky;
-    top: 80px;
+    top: 20px; /* 调整为与主内容对齐 */
     height: fit-content;
 }
 
@@ -184,6 +190,19 @@ section h2 {
     margin-bottom: 20px;
 }
 
+.research-interests h3 {
+    font-size: 20px;
+    color: #2c3e50;
+    margin: 15px 0 10px;
+}
+
+.research-interests p {
+    font-size: 16px;
+    color: #34495e;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
 /* 响应式设计 */
 @media (max-width: 768px) {
     .research-container {
@@ -194,5 +213,33 @@ section h2 {
         position: static;
         margin-bottom: 20px;
     }
+}
+
+.research-interests p {
+    line-height: 1.6;
+    margin-bottom: 1.5em;
+    color: #2c3e50;
+}
+
+.research-interests h3 {
+    font-size: 1.3em;
+    color: #2c3e50;
+    margin: 1.5em 0 1em;
+}
+
+.research-interests ul {
+    padding-left: 1.5em;
+    margin-bottom: 1.5em;
+}
+
+.research-interests li {
+    margin-bottom: 1em;
+    line-height: 1.6;
+    color: #34495e;
+}
+
+.research-interests strong {
+    color: #2c3e50;
+    font-weight: 600;
 }
 </style>
