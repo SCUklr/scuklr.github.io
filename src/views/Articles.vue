@@ -25,7 +25,11 @@ const tagTypeMap = {
 const preloadArticles = async () => {
   try {
     console.log('开始加载文章...')
-    const markdownFiles = import.meta.glob(['../posts/**/*.md'], { eager: true, query: '?raw', import: 'default' })
+    const markdownFiles = import.meta.glob(['../posts/**/*.md'], { 
+      eager: true,  // 改为 eager 模式
+      query: '?raw',
+      import: 'default'
+    })
     console.log('找到的markdown文件:', Object.keys(markdownFiles))
     
     // 使用 Promise.all 并行加载所有文章
@@ -128,6 +132,18 @@ const handleSearch = () => {
   })
 }
 
+// 在路由变化时重新加载文章
+watch(
+  () => route.path,
+  () => {
+    if (route.path === '/articles') {
+      preloadArticles()
+    }
+  },
+  { immediate: true }
+)
+
+// 在组件挂载时加载文章
 onMounted(() => {
   preloadArticles()
   

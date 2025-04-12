@@ -22,7 +22,7 @@ import homeIcon from '@/assets/icon/首页.svg'
 import articleIcon from '@/assets/icon/文章.svg'
 import linkIcon from '@/assets/icon/链接.svg'
 import aboutIcon from '@/assets/icon/用户.svg'
-import researchIcon from '@/assets/icon/科研.svg'  // 添加科研图标导入
+import researchIcon from '@/assets/icon/科研.svg'
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import backgroundImage from '@/assets/background/wallhaven-d69eom.jpg'
@@ -172,7 +172,9 @@ onUnmounted(() => {
           />
           <span class="site-title">子丘的个人博客</span>
         </div>
+        <!-- 顶部导航菜单开始 -->
         <div class="menu-container">
+          <!-- n-menu 组件是整个导航菜单的容器 -->
           <n-menu 
             mode="horizontal" 
             :options="menuOptions"
@@ -185,6 +187,7 @@ onUnmounted(() => {
               '--n-font-weight': '500'
             }"
           >
+            <!-- 每个菜单项的模板 -->
             <template #item="{ option }">
               <n-menu-item :value="option.key">
                 <template #icon>
@@ -195,6 +198,7 @@ onUnmounted(() => {
             </template>
           </n-menu>
         </div>
+        <!-- 顶部导航菜单结束 -->
       </div>
       <n-progress
         type="line"
@@ -221,7 +225,7 @@ onUnmounted(() => {
     <n-layout-footer class="footer" bordered role="contentinfo">
       <div class="footer-content">
         <p>Copyright © 2025- 子丘的个人博客</p>
-        <p>使用 Vue3 + Naive UI 构建</p>
+        <p>使用 Vue3 + Vite + Naive UI 构建, Vitest测试</p>
       </div>
     </n-layout-footer>
 
@@ -481,5 +485,27 @@ html {
 /* 返回顶部按钮平滑滚动 */
 .back-to-top {
   transition: all 0.3s ease;
+}
+
+/* 自定义导航菜单文字样式 */
+:deep(.n-menu-item-content-header) {
+  font-family: 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+}
+
+/* 鼠标悬停时的样式 */
+:deep(.n-menu-item:hover .n-menu-item-content-header) {
+  color: var(--primary-color) !important;
+  transform: scale(1.05);
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+/* 激活状态的样式 */
+:deep(.n-menu-item--selected .n-menu-item-content-header) {
+  font-weight: 700;
+  color: var(--primary-color) !important;
 }
 </style>
