@@ -24,65 +24,96 @@ const tagTypeMap = {
 // 预加载文章列表
 const preloadArticles = async () => {
   try {
-    const markdownFiles = import.meta.glob('../posts/**/*.md', { as: 'raw' })
+    console.log('开始加载文章...')
+    const markdownFiles = import.meta.glob(['../posts/**/*.md'], { eager: true, query: '?raw', import: 'default' })
+    console.log('找到的markdown文件:', Object.keys(markdownFiles))
     
     // 使用 Promise.all 并行加载所有文章
-    const loadPromises = Object.entries(markdownFiles).map(async ([path, loader]) => {
-      if (path.endsWith('README.md')) return null
+    const loadPromises = Object.entries(markdownFiles).map(async ([path, content]) => {
+      console.log('正在处理文件:', path)
+      if (path.endsWith('README.md')) {
+        console.log('跳过 README.md')
+        return null
+      }
       
       try {
-        const content = await loader()
-        if (!content || content.trim() === '') return null
+        if (!content || content.trim() === '') {
+          console.log('文件内容为空:', path)
+          return null
+        }
 
         const { attributes } = frontMatter(content)
+        console.log('解析的 front-matter:', path, attributes)
         const pathParts = path.split('/')
         const fileName = pathParts[pathParts.length - 1]
         const id = fileName.replace('.md', '')
         
-        if (attributes.title && attributes.date) {
-          return {
-            id,
-            title: attributes.title,
-            date: attributes.date,
-            tags: attributes.tags || [],
-            description: attributes.description || '暂无描述'
-          }
+        if (!attributes.title || !attributes.date) {
+          console.log('文章缺少必要的 front-matter:', path, attributes)
+          return null
         }
+
+        const article = {
+          id,
+          title: attributes.title,
+          date: attributes.date,
+          tags: attributes.tags || [],
+          description: attributes.description || '暂无描述'
+        }
+        console.log('成功加载文章:', article)
+        return article
       } catch (error) {
-        console.error(`Error loading article from ${path}:`, error)
+        console.error(`处理文章出错 ${path}:`, error)
         return null
       }
     })
 
     const results = await Promise.all(loadPromises)
+    console.log('所有文章加载结果:', results)
     allArticles.value = results
       .filter(Boolean)  // 过滤掉 null 值
       .sort((a, b) => new Date(b.date) - new Date(a.date))
     
+    console.log('最终加载的文章列表:', allArticles.value)
     isLoading.value = false
   } catch (error) {
-    console.error('Failed to load articles:', error)
+    console.error('加载文章失败:', error)
     isLoading.value = false
   }
 }
 
 // 根据搜索关键词过滤文章
 const filteredArticles = computed(() => {
-  if (!searchKeyword.value) return allArticles.value
-  const keyword = searchKeyword.value.toLowerCase()
-  return allArticles.value.filter(article => 
-    article.title.toLowerCase().includes(keyword) ||
-    article.description.toLowerCase().includes(keyword) ||
-    article.tags.some(tag => tag.toLowerCase().includes(keyword))
-  )
+  const articles = allArticles.value || []
+  const keyword = searchKeyword.value ? searchKeyword.value.toLowerCase() : ''
+  
+  if (!keyword) {
+    return articles
+  }
+  
+  return articles.filter(article => {
+    if (!article) return false
+    
+    const title = article.title ? article.title.toLowerCase() : ''
+    const description = article.description ? article.description.toLowerCase() : ''
+    const tags = article.tags || []
+    const categoryMatch = tags.some(tag => {
+      if (!tag) return false
+      return tag.toLowerCase().includes(keyword)
+    })
+    
+    return title.includes(keyword) || 
+           description.includes(keyword) || 
+           categoryMatch
+  })
 })
 
 const total = computed(() => filteredArticles.value.length)
 
 const displayedArticles = computed(() => {
-  const start = (page.value - 1) * pageSize
-  const end = start + pageSize
-  return filteredArticles.value.slice(start, end)
+  const start = (page.value - 1) * pageSize;
+  const end = start + pageSize;
+  return filteredArticles.value.slice(start, end);
 })
 
 // 处理搜索
@@ -92,7 +123,7 @@ const handleSearch = () => {
     path: '/articles',
     query: { 
       page: 1,
-      search: searchKeyword.value
+      ...(searchKeyword.value ? { search: searchKeyword.value } : {})
     }
   })
 }
@@ -123,13 +154,19 @@ const handlePageChange = (newPage) => {
     path: '/articles',
     query: { 
       page: newPage,
-      search: searchKeyword.value
+      ...(searchKeyword.value ? { search: searchKeyword.value } : {})
     }
   })
 }
 
 const handleArticleClick = (articleId) => {
-  router.push(`/article/${articleId}?fromPage=${page.value}&search=${searchKeyword.value}`)
+  router.push({
+    path: `/article/${articleId}`,
+    query: {
+      fromPage: page.value,
+      ...(searchKeyword.value ? { search: searchKeyword.value } : {})
+    }
+  })
 }
 </script>
 
@@ -138,7 +175,7 @@ const handleArticleClick = (articleId) => {
     <!-- 搜索框 -->
     <div class="search-container">
       <n-input
-        v-model:value="searchKeyword"
+        v-model="searchKeyword"
         type="text"
         placeholder="搜索文章标题、描述或标签..."
         @keyup.enter="handleSearch"
@@ -166,7 +203,7 @@ const handleArticleClick = (articleId) => {
         >
           <div class="article-header">
             <h2 class="article-title">{{ article.title }}</h2>
-            <n-time :time="new Date(article.date)" format="yyyy-MM-dd" />
+            <n-time :time="article.date" format="yyyy-MM-dd" />
           </div>
           <p class="article-description">{{ article.description }}</p>
           <div class="article-footer">
@@ -191,11 +228,11 @@ const handleArticleClick = (articleId) => {
       <!-- 分页 -->
       <div v-if="total > pageSize" class="pagination">
         <n-pagination
-          v-model:page="page"
+          v-model="page"
           :page-size="pageSize"
           :total="total"
           :page-count="Math.ceil(total / pageSize)"
-          :default-page="parseInt(route.query.page) || 1"
+          :default-page="Number(route.query.page) || 1"
           show-quick-jumper
           @update:page="handlePageChange"
         />
