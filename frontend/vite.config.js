@@ -4,7 +4,7 @@ import { resolve } from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/blog-fullstack/',  // 修改为仓库名，因为是部署在GitHub Pages上
+  base: '/',  // 修改为根路径，因为是部署在根域名
   plugins: [vue()],
   resolve: {
     alias: {
@@ -40,19 +40,23 @@ export default defineConfig({
     port: 5173,
     strictPort: true,
     watch: {
-      usePolling: true,  // 使用轮询监听文件变化
-      interval: 100  // 轮询间隔
+      usePolling: true,
+      interval: 100
     },
-    cors: true,  // 启用 CORS
+    cors: true,
     headers: {
-      'Cache-Control': 'public, max-age=31536000',
+      'Cache-Control': 'no-cache',
       'Access-Control-Allow-Origin': '*'
     },
     hmr: {
-      overlay: true,  // 显示错误提示
+      overlay: true,
       clientPort: 5173,
       host: 'localhost',
       protocol: 'ws'
     }
+  },
+  optimizeDeps: {
+    force: true,
+    include: ['vue', 'vue-router', 'naive-ui']
   }
 })

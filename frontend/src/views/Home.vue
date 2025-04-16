@@ -26,7 +26,7 @@ const bgColors = [
 
 const projects = ref([
   { 
-    title: '会写点前端',
+    title: 'Front-end Development',
     description: '🎨 Vue3 / TypeScript',
     color: 'rgba(0, 0, 0, 0.2)',
     backgroundImage: `url(${KanaAnna})`,
@@ -39,8 +39,8 @@ const projects = ref([
     }
   },
   { 
-    title: '憧憬成为测开工程师',
-    description: '🔧 Python / Selenium / Pytest',
+    title: 'Test Development',
+    description: '🔧  Selenium / PlayWright / Cypress / Postman / Pytest',
     color: 'rgba(0, 0, 0, 0.2)',
     backgroundImage: 'url(https://images.dmzj.com/resource/news/2023/08/16/1692180208566984.png)',
     titleColor: '#ffffff',
@@ -61,7 +61,7 @@ const projects = ref([
     fontFamily: "'Roboto', sans-serif"
   },
   { 
-    title: '🎵 音乐偏好 & 最近在玩',
+    title: '🎵 Music & Game',
     description: '万青 · 花儿乐队 · 崔健 | 消逝的光芒2 · FM2024',
     color: bgColors[Math.floor(Math.random() * bgColors.length)],
     fontFamily: "'Noto Serif SC', serif"

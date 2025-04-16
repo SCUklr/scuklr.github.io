@@ -226,6 +226,7 @@ onUnmounted(() => {
       <div class="footer-content">
         <p>Copyright © 2025- 子丘的个人博客</p>
         <p>使用 Vue3 + Vite + Naive UI 构建, Vitest测试</p>
+        <p>待添加</p>
       </div>
     </n-layout-footer>
 
