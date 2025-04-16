@@ -1,5 +1,14 @@
 <script setup>
-import { NCard, NAvatar, NDivider } from 'naive-ui'
+import { ref } from 'vue'
+import { NCard, NAvatar, NDivider, NSpace } from 'naive-ui'
+
+const sections = ref([
+  { id: 'about-me', title: 'About Me' },
+  { id: 'news', title: 'News' },
+  { id: 'publications', title: 'Publications' },
+  { id: 'honors', title: 'Honors and Awards' },
+  { id: 'services', title: 'Services' }
+])
 
 // 平滑滚动到指定部分
 const scrollToSection = (sectionId) => {
@@ -9,237 +18,251 @@ const scrollToSection = (sectionId) => {
   }
 }
 </script>
+
 <template>
-    <div class="research-container">
-        <!-- 左侧固定导航 -->
-        <div class="sidebar">
-            <!-- 个人信息卡片 -->
-            <n-card class="profile-card">
-                <div class="profile-content">
-                    <n-avatar
-                        round
-                        size="large"
-                        src="https://img.moegirl.org.cn/common/thumb/c/c1/Yanami_Anna_icon.png/198px-Yanami_Anna_icon.png"
-                    />
-                    <h2>Kong Lingran</h2>
-                    <p>Sichuan University</p>
-                    <div class="contact-info">
-                        <p><i class="fas fa-envelope"></i> Email: 122790291klr@gmail.com</p>
-                        <p><i class="fas fa-map-marker"></i> Location: Chengdu, Chongqing, Hong Kong, China</p>
-                    </div>
-                    <div class="social-links">
-                        <a href="https://github.com/yourusername" target="_blank">
-                            <i class="fab fa-github"></i>
-                        </a>
-                    </div>
-                </div>
-            </n-card>
+  <div class="page-container">
+    <div class="content-layout">
+      <!-- 左侧信息卡片 -->
+      <div class="info-card">
+        <n-card>
+          <n-space vertical>
+            <div class="avatar-container">
+              <n-avatar
+                round
+                size="large"
+                src="https://img.moegirl.org.cn/common/thumb/c/c1/Yanami_Anna_icon.png/198px-Yanami_Anna_icon.png"
+              />
+            </div>
+            <div class="basic-info">
+              <h2>Kong Lingran</h2>
+              <p>Sichuan University</p>
+            </div>
+            <div class="contact-info">
+              <p>Email: 122790291klr@gmail.com</p>
+              <p>Location: Chengdu, Chongqing, Hong Kong, China</p>
+            </div>
+          </n-space>
+        </n-card>
 
-            <!-- 导航菜单 -->
-            <n-card class="nav-menu">
-                <div class="nav-links">
-                    <a href="#about-me" @click.prevent="scrollToSection('about-me')">About Me</a>
-                    <a href="#news" @click.prevent="scrollToSection('news')">News</a>
-                    <a href="#publications" @click.prevent="scrollToSection('publications')">Publications</a>
-                    <a href="#honors" @click.prevent="scrollToSection('honors')">Honors and Awards</a>
-                    <a href="#services" @click.prevent="scrollToSection('services')">Services</a>
-                </div>
-            </n-card>
-        </div>
+        <!-- 导航菜单 -->
+        <n-card class="nav-menu">
+          <div class="nav-links">
+            <a
+              v-for="section in sections"
+              :key="section.id"
+              :href="'#' + section.id"
+              @click.prevent="scrollToSection(section.id)"
+            >
+              {{ section.title }}
+            </a>
+          </div>
+        </n-card>
+      </div>
 
-        <!-- 右侧内容区 -->
-        <div class="main-content">
-            <n-card>
-                <!-- About Me 部分 -->
-                <section id="about-me">
-                    <h2>About Me</h2>
-                    <div class="research-interests">
-                        <p><strong>Kong Lingran (孔令然)</strong> is an undergraduate student at the College of Computer Science, Sichuan University. He will complete his bachelor's degree in June 2025 and will pursue an MSc degree at The Chinese University of Hong Kong starting from September 2025. His research interests mainly focus on <strong>Multi-view Clustering</strong>.</p>
-                        
-                        <h3>Research Interests</h3>
-                        <ul>
-                            <li><strong>Multi-view Clustering</strong>: Developing algorithms that can effectively integrate information from multiple views or perspectives of data, with a particular focus on incorporating Information Bottleneck theory into the clustering process.</li>
-                        </ul>
-                    </div>
-                </section>
+      <!-- 右侧主要内容 -->
+      <div class="main-content">
+        <n-card>
+          <!-- About Me 部分 -->
+          <section id="about-me" class="content-section">
+            <h2>About Me</h2>
+            <div class="section-content">
+              <p>
+                <strong>Kong Lingran (孔令然)</strong> is an undergraduate student at the College of Computer Science, Sichuan University. 
+                He will complete his bachelor's degree in June 2025 and will pursue an MSc degree at The Chinese University of Hong Kong 
+                starting from September 2025. His research interests mainly focus on <strong>Multi-view Clustering</strong>.
+              </p>
 
-                <n-divider />
+              <h3>Research Interests</h3>
+              <ul>
+                <li>
+                  <strong>Multi-view Clustering:</strong> Developing algorithms that can effectively integrate information from multiple views 
+                  or perspectives of data, with a particular focus on incorporating Information Bottleneck theory into the clustering process.
+                </li>
+              </ul>
+            </div>
+          </section>
 
-                <!-- News 部分 -->
-                <section id="news">
-                    <h2>News</h2>
-                    <p>这里添加新闻内容</p>
-                </section>
+          <n-divider />
 
-                <n-divider />
+          <!-- News 部分 -->
+          <section id="news" class="content-section">
+            <h2>News</h2>
+            <div class="section-content">
+              <p>这里添加新闻内容</p>
+            </div>
+          </section>
 
-                <!-- Publications 部分 -->
-                <section id="publications">
-                    <h2>Publications</h2>
-                    <p>这里添加论文发表</p>
-                </section>
+          <n-divider />
 
-                <n-divider />
+          <!-- Publications 部分 -->
+          <section id="publications" class="content-section">
+            <h2>Publications</h2>
+            <div class="section-content">
+              <p>这里添加论文发表</p>
+            </div>
+          </section>
 
-                <!-- Honors and Awards 部分 -->
-                <section id="honors">
-                    <h2>Honors and Awards</h2>
-                    <p>这里添加荣誉奖项</p>
-                </section>
+          <n-divider />
 
-                <n-divider />
+          <!-- Honors and Awards 部分 -->
+          <section id="honors" class="content-section">
+            <h2>Honors and Awards</h2>
+            <div class="section-content">
+              <p>这里添加荣誉奖项</p>
+            </div>
+          </section>
 
-                <!-- Services 部分 -->
-                <section id="services">
-                    <h2>Services</h2>
-                    <p>这里添加服务内容</p>
-                </section>
-            </n-card>
-        </div>
+          <n-divider />
+
+          <!-- Services 部分 -->
+          <section id="services" class="content-section">
+            <h2>Services</h2>
+            <div class="section-content">
+              <p>这里添加服务内容</p>
+            </div>
+          </section>
+        </n-card>
+      </div>
     </div>
+  </div>
 </template>
+
 <style scoped>
-.research-container {
-    display: grid;
-    grid-template-columns: 300px 1fr;
-    gap: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+.page-container {
+  width: 100%;
+  min-height: 100vh;
+  padding: 20px;
+  background-color: var(--body-color);
 }
 
-.sidebar {
-    position: sticky;
-    top: 20px; /* 调整为与主内容对齐 */
-    height: fit-content;
+.content-layout {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  gap: 24px;
 }
 
-.profile-card {
-    margin-bottom: 20px;
+.info-card {
+  width: 300px;
+  position: sticky;
+  top: 20px;
+  height: fit-content;
 }
 
-.profile-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 10px;
+.avatar-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.basic-info {
+  text-align: center;
+}
+
+.basic-info h2 {
+  margin: 0;
+  font-size: 1.5em;
+  color: var(--text-color-1);
+}
+
+.basic-info p {
+  margin: 8px 0;
+  color: var(--text-color-2);
 }
 
 .contact-info {
-    width: 100%;
-    text-align: left;
-    margin-top: 10px;
+  margin-top: 16px;
 }
 
 .contact-info p {
-    margin: 5px 0;
-    font-size: 14px;
-}
-
-.social-links {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-}
-
-.social-links a {
-    color: #666;
-    font-size: 20px;
-    transition: color 0.3s;
-}
-
-.social-links a:hover {
-    color: var(--primary-color);
+  margin: 8px 0;
+  color: var(--text-color-2);
+  font-size: 0.9em;
 }
 
 .nav-menu {
-    margin-bottom: 20px;
+  margin-top: 16px;
 }
 
 .nav-links {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .nav-links a {
-    color: #333;
-    text-decoration: none;
-    padding: 8px;
-    border-radius: 4px;
-    transition: all 0.3s;
+  padding: 8px 16px;
+  color: var(--text-color-2);
+  text-decoration: none;
+  border-radius: 4px;
+  transition: all 0.3s ease;
 }
 
 .nav-links a:hover {
-    background-color: #f5f5f5;
-    color: var(--primary-color);
+  background-color: var(--hover-color);
+  color: var(--primary-color);
 }
 
 .main-content {
-    min-height: 100vh;
+  flex: 1;
+  min-width: 0;
 }
 
-section {
-    margin-bottom: 40px;
+.content-section {
+  margin-bottom: 32px;
 }
 
-section h2 {
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 20px;
+.content-section:last-child {
+  margin-bottom: 0;
 }
 
-.research-interests h3 {
-    font-size: 20px;
-    color: #2c3e50;
-    margin: 15px 0 10px;
+.content-section h2 {
+  margin: 0 0 16px;
+  font-size: 1.8em;
+  color: var(--text-color-1);
 }
 
-.research-interests p {
-    font-size: 16px;
-    color: #34495e;
-    line-height: 1.6;
-    margin-bottom: 15px;
+.content-section h3 {
+  margin: 24px 0 16px;
+  font-size: 1.4em;
+  color: var(--text-color-1);
+}
+
+.section-content {
+  color: var(--text-color-2);
+  line-height: 1.6;
+}
+
+.section-content p {
+  margin: 0 0 16px;
+}
+
+.section-content ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.section-content li {
+  margin-bottom: 8px;
+}
+
+.section-content strong {
+  color: var(--text-color-1);
 }
 
 /* 响应式设计 */
 @media (max-width: 768px) {
-    .research-container {
-        grid-template-columns: 1fr;
-    }
+  .content-layout {
+    flex-direction: column;
+  }
 
-    .sidebar {
-        position: static;
-        margin-bottom: 20px;
-    }
-}
+  .info-card {
+    width: 100%;
+    position: static;
+  }
 
-.research-interests p {
-    line-height: 1.6;
-    margin-bottom: 1.5em;
-    color: #2c3e50;
-}
-
-.research-interests h3 {
-    font-size: 1.3em;
-    color: #2c3e50;
-    margin: 1.5em 0 1em;
-}
-
-.research-interests ul {
-    padding-left: 1.5em;
-    margin-bottom: 1.5em;
-}
-
-.research-interests li {
-    margin-bottom: 1em;
-    line-height: 1.6;
-    color: #34495e;
-}
-
-.research-interests strong {
-    color: #2c3e50;
-    font-weight: 600;
+  .main-content {
+    width: 100%;
+  }
 }
 </style>

@@ -24,7 +24,7 @@ import { NCard, NTimeline, NTimelineItem, NDivider } from 'naive-ui'
           <div class="school-info">
             <div class="school-header">
               <h2>香港中文大学 (The Chinese University of Hong Kong)</h2>
-              <span class="date">2025.9-2026.11</span>
+              <span class="date">2025.9-2026</span>
             </div>
             <div class="degree-info">
               <span class="major">信息工程 (Information Engineering)</span>
