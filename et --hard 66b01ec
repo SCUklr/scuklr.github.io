@@ -1,0 +1,256 @@
+[1mdiff --git a/src/views/Research.vue b/src/views/Research.vue[m
+[1mdeleted file mode 100644[m
+[1mindex 8b0204a..0000000[m
+[1m--- a/src/views/Research.vue[m
+[1m+++ /dev/null[m
+[36m@@ -1,268 +0,0 @@[m
+[31m-<script setup>[m
+[31m-import { ref } from 'vue'[m
+[31m-import { NCard, NAvatar, NDivider, NSpace } from 'naive-ui'[m
+[31m-[m
+[31m-const sections = ref([[m
+[31m-  { id: 'about-me', title: 'About Me' },[m
+[31m-  { id: 'news', title: 'News' },[m
+[31m-  { id: 'publications', title: 'Publications' },[m
+[31m-  { id: 'honors', title: 'Honors and Awards' },[m
+[31m-  { id: 'services', title: 'Services' }[m
+[31m-])[m
+[31m-[m
+[31m-// 平滑滚动到指定部分[m
+[31m-const scrollToSection = (sectionId) => {[m
+[31m-  const element = document.getElementById(sectionId)[m
+[31m-  if (element) {[m
+[31m-    element.scrollIntoView({ behavior: 'smooth' })[m
+[31m-  }[m
+[31m-}[m
+[31m-</script>[m
+[31m-[m
+[31m-<template>[m
+[31m-  <div class="page-container">[m
+[31m-    <div class="content-layout">[m
+[31m-      <!-- 左侧信息卡片 -->[m
+[31m-      <div class="info-card">[m
+[31m-        <n-card>[m
+[31m-          <n-space vertical>[m
+[31m-            <div class="avatar-container">[m
+[31m-              <n-avatar[m
+[31m-                round[m
+[31m-                size="large"[m
+[31m-                src="https://img.moegirl.org.cn/common/thumb/c/c1/Yanami_Anna_icon.png/198px-Yanami_Anna_icon.png"[m
+[31m-              />[m
+[31m-            </div>[m
+[31m-            <div class="basic-info">[m
+[31m-              <h2>Kong Lingran</h2>[m
+[31m-              <p>Sichuan University</p>[m
+[31m-            </div>[m
+[31m-            <div class="contact-info">[m
+[31m-              <p>Email: 122790291klr@gmail.com</p>[m
+[31m-              <p>Location: Chengdu, Chongqing, Hong Kong, China</p>[m
+[31m-            </div>[m
+[31m-          </n-space>[m
+[31m-        </n-card>[m
+[31m-[m
+[31m-        <!-- 导航菜单 -->[m
+[31m-        <n-card class="nav-menu">[m
+[31m-          <div class="nav-links">[m
+[31m-            <a[m
+[31m-              v-for="section in sections"[m
+[31m-              :key="section.id"[m
+[31m-              :href="'#' + section.id"[m
+[31m-              @click.prevent="scrollToSection(section.id)"[m
+[31m-            >[m
+[31m-              {{ section.title }}[m
+[31m-            </a>[m
+[31m-          </div>[m
+[31m-        </n-card>[m
+[31m-      </div>[m
+[31m-[m
+[31m-      <!-- 右侧主要内容 -->[m
+[31m-      <div class="main-content">[m
+[31m-        <n-card>[m
+[31m-          <!-- About Me 部分 -->[m
+[31m-          <section id="about-me" class="content-section">[m
+[31m-            <h2>About Me</h2>[m
+[31m-            <div class="section-content">[m
+[31m-              <p>[m
+[31m-                <strong>Kong Lingran (孔令然)</strong> is an undergraduate student at the College of Computer Science, Sichuan University. [m
+[31m-                He will complete his bachelor's degree in June 2025 and will pursue an MSc degree at The Chinese University of Hong Kong [m
+[31m-                starting from September 2025. His research interests mainly focus on <strong>Multi-view Clustering</strong>.[m
+[31m-              </p>[m
+[31m-[m
+[31m-              <h3>Research Interests</h3>[m
+[31m-              <ul>[m
+[31m-                <li>[m
+[31m-                  <strong>Multi-view Clustering:</strong> Developing algorithms that can effectively integrate information from multiple views [m
+[31m-                  or perspectives of data, with a particular focus on incorporating Information Bottleneck theory into the clustering process.[m
+[31m-                </li>[m
+[31m-              </ul>[m
+[31m-            </div>[m
+[31m-          </section>[m
+[31m-[m
+[31m-          <n-divider />[m
+[31m-[m
+[31m-          <!-- News 部分 -->[m
+[31m-          <section id="news" class="content-section">[m
+[31m-            <h2>News</h2>[m
+[31m-            <div class="section-content">[m
+[31m-              <p>这里添加新闻内容</p>[m
+[31m-            </div>[m
+[31m-          </section>[m
+[31m-[m
+[31m-          <n-divider />[m
+[31m-[m
+[31m-          <!-- Publications 部分 -->[m
+[31m-          <section id="publications" class="content-section">[m
+[31m-            <h2>Publications</h2>[m
+[31m-            <div class="section-content">[m
+[31m-              <p>这里添加论文发表</p>[m
+[31m-            </div>[m
+[31m-          </section>[m
+[31m-[m
+[31m-          <n-divider />[m
+[31m-[m
+[31m-          <!-- Honors and Awards 部分 -->[m
+[31m-          <section id="honors" class="content-section">[m
+[31m-            <h2>Honors and Awards</h2>[m
+[31m-            <div class="section-content">[m
+[31m-              <p>这里添加荣誉奖项</p>[m
+[31m-            </div>[m
+[31m-          </section>[m
+[31m-[m
+[31m-          <n-divider />[m
+[31m-[m
+[31m-          <!-- Services 部分 -->[m
+[31m-          <section id="services" class="content-section">[m
+[31m-            <h2>Services</h2>[m
+[31m-            <div class="section-content">[m
+[31m-              <p>这里添加服务内容</p>[m
+[31m-            </div>[m
+[31m-          </section>[m
+[31m-        </n-card>[m
+[31m-      </div>[m
+[31m-    </div>[m
+[31m-  </div>[m
+[31m-</template>[m
+[31m-[m
+[31m-<style scoped>[m
+[31m-.page-container {[m
+[31m-  width: 100%;[m
+[31m-  min-height: 100vh;[m
+[31m-  padding: 20px;[m
+[31m-  background-color: var(--body-color);[m
+[31m-}[m
+[31m-[m
+[31m-.content-layout {[m
+[31m-  max-width: 1200px;[m
+[31m-  margin: 0 auto;[m
+[31m-  display: flex;[m
+[31m-  gap: 24px;[m
+[31m-}[m
+[31m-[m
+[31m-.info-card {[m
+[31m-  width: 300px;[m
+[31m-  position: sticky;[m
+[31m-  top: 20px;[m
+[31m-  height: fit-content;[m
+[31m-}[m
+[31m-[m
+[31m-.avatar-container {[m
+[31m-  display: flex;[m
+[31m-  justify-content: center;[m
+[31m-  margin-bottom: 16px;[m
+[31m-}[m
+[31m-[m
+[31m-.basic-info {[m
+[31m-  text-align: center;[m
+[31m-}[m
+[31m-[m
+[31m-.basic-info h2 {[m
+[31m-  margin: 0;[m
+[31m-  font-size: 1.5em;[m
+[31m-  color: var(--text-color-1);[m
+[31m-}[m
+[31m-[m
+[31m-.basic-info p {[m
+[31m-  margin: 8px 0;[m
+[31m-  color: var(--text-color-2);[m
+[31m-}[m
+[31m-[m
+[31m-.contact-info {[m
+[31m-  margin-top: 16px;[m
+[31m-}[m
+[31m-[m
+[31m-.contact-info p {[m
+[31m-  margin: 8px 0;[m
+[31m-  color: var(--text-color-2);[m
+[31m-  font-size: 0.9em;[m
+[31m-}[m
+[31m-[m
+[31m-.nav-menu {[m
+[31m-  margin-top: 16px;[m
+[31m-}[m
+[31m-[m
+[31m-.nav-links {[m
+[31m-  display: flex;[m
+[31m-  flex-direction: column;[m
+[31m-  gap: 8px;[m
+[31m-}[m
+[31m-[m
+[31m-.nav-links a {[m
+[31m-  padding: 8px 16px;[m
+[31m-  color: var(--text-color-2);[m
+[31m-  text-decoration: none;[m
+[31m-  border-radius: 4px;[m
+[31m-  transition: all 0.3s ease;[m
+[31m-}[m
+[31m-[m
+[31m-.nav-links a:hover {[m
+[31m-  background-color: var(--hover-color);[m
+[31m-  color: var(--primary-color);[m
+[31m-}[m
+[31m-[m
+[31m-.main-content {[m
+[31m-  flex: 1;[m
+[31m-  min-width: 0;[m
+[31m-}[m
+[31m-[m
+[31m-.content-section {[m
+[31m-  margin-bottom: 32px;[m
+[31m-}[m
+[31m-[m
+[31m-.content-section:last-child {[m
+[31m-  margin-bottom: 0;[m
+[31m-}[m
+[31m-[m
+[31m-.content-section h2 {[m
+[31m-  margin: 0 0 16px;[m
+[31m-  font-size: 1.8em;[m
+[31m-  color: var(--text-color-1);[m
+[31m-}[m
+[31m-[m
+[31m-.content-section h3 {[m
+[31m-  margin: 24px 0 16px;[m
+[31m-  font-size: 1.4em;[m
+[31m-  color: var(--text-color-1);[m
+[31m-}[m
+[31m-[m
+[31m-.section-content {[m
+[31m-  color: var(--text-color-2);[m
+[31m-  line-height: 1.6;[m
+[31m-}[m
+[31m-[m
+[31m-.section-content p {[m
+[31m-  margin: 0 0 16px;[m
+[31m-}[m
+[31m-[m
+[31m-.section-content ul {[m
+[31m-  margin: 0;[m
+[31m-  padding-left: 20px;[m
+[31m-}[m
+[31m-[m
+[31m-.section-content li {[m
+[31m-  margin-bottom: 8px;[m
+[31m-}[m
+[31m-[m
+[31m-.section-content strong {[m
+[31m-  col
