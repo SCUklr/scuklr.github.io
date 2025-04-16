@@ -63,8 +63,15 @@ const projects = ref([
   { 
     title: '🎵 Music & Game',
     description: '万青 · 花儿乐队 · 崔健 | 消逝的光芒2 · FM2024',
-    color: bgColors[Math.floor(Math.random() * bgColors.length)],
-    fontFamily: "'Noto Serif SC', serif"
+    color: 'rgba(0, 0, 0, 0.2)',  // 修改这里，添加半透明黑色遮罩
+    backgroundImage: 'url(https://theglorioblog.com/wp-content/uploads/2024/04/vlcsnap-2024-04-14-15h59m11s763.png?w=1397)',
+    titleColor: '#ffffff',
+    descriptionColor: '#ffffff',
+    fontFamily: "'Noto Sans SC', 'Source Code Pro', sans-serif",
+    textShadow: '1px 1px 3px rgba(0, 0, 0, 0.8)',
+    cardContentStyle: {
+      padding: '15px',
+    }
   }
 ])
 
