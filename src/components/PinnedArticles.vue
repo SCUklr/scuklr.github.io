@@ -20,10 +20,10 @@ const pinnedArticles = ref([
     date: '2024年3月20日'
   },
   {
-    id: 'hello-world',
-    title: 'Hello World',
-    category: '生活',
-    date: '2024年3月20日'
+    id: 'CypressABC',
+    title: 'Cypress入门教程',
+    category: '技术',
+    date: '2025年4月8日'
   },
   {
     id: 'naive-ui-beautify',
