@@ -1,5 +1,5 @@
 <script setup>
-import { NCard, NTimeline, NTimelineItem, NDivider } from 'naive-ui'
+import { NCard, NTimeline, NTimelineItem, NDivider } from "naive-ui";
 </script>
 
 <template>
@@ -31,14 +31,25 @@ import { NCard, NTimeline, NTimelineItem, NDivider } from 'naive-ui'
               <span class="degree">理学硕士 (Master of Science)</span>
             </div>
           </div>
-          
+
           <n-divider />
-          
+
           <h2 class="section-title">技术栈</h2>
           <div class="skills">
-            <p><strong>测试开发(Test Development):</strong> <strong>Selenium, Playwright, Cypress, Pytest</strong>, Apifox, Postman, Jmeter</p>
-            <p><strong>前端开发(Frontend):</strong> <strong>Vue3, Vite, Vitest, TypeScript, </strong>HTML, CSS, JavaScript</p>
-            <p><strong>深度学习(Deep Learning):</strong> NLP, <strong>Multi-view Clustering</strong></p>
+            <p>
+              <strong>后端开发(Backend):</strong>
+              <strong
+                >JavaSE | Spring Boot | MySQL | Redis | Kafka | Maven</strong
+              >
+            </p>
+            <p>
+              <strong>前端开发(Frontend):</strong> <strong>Vue3</strong>, HTML,
+              CSS, JavaScript
+            </p>
+            <p>
+              <strong>测试开发(Test Development):</strong>
+              <strong>Selenium, Cypress</strong>, Apifox
+            </p>
           </div>
 
           <n-divider />
@@ -67,7 +78,7 @@ import { NCard, NTimeline, NTimelineItem, NDivider } from 'naive-ui'
 <style scoped>
 .about-container {
   width: 100%;
-  min-height: calc(100vh - 144px);  /* 减去头部和底部的高度 */
+  min-height: calc(100vh - 144px); /* 减去头部和底部的高度 */
   display: flex;
   gap: 20px;
   max-width: 1200px;
@@ -235,4 +246,4 @@ import { NCard, NTimeline, NTimelineItem, NDivider } from 'naive-ui'
   font-weight: bold;
   margin: 24px 0 16px 0;
 }
-</style> 
+</style>

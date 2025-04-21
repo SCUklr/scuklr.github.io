@@ -1,22 +1,22 @@
 <script setup>
-import { ref } from 'vue'
-import { NCard, NAvatar, NDivider, NSpace } from 'naive-ui'
+import { ref } from "vue";
+import { NCard, NAvatar, NDivider, NSpace } from "naive-ui";
 
 const sections = ref([
-  { id: 'about-me', title: 'About Me' },
-  { id: 'news', title: 'News' },
-  { id: 'publications', title: 'Publications' },
-  { id: 'honors', title: 'Honors and Awards' },
-  { id: 'services', title: 'Services' }
-])
+  { id: "about-me", title: "About Me" },
+  { id: "news", title: "News" },
+  { id: "publications", title: "Publications" },
+  { id: "honors", title: "Honors and Awards" },
+  { id: "services", title: "Services" },
+]);
 
 // 平滑滚动到指定部分
 const scrollToSection = (sectionId) => {
-  const element = document.getElementById(sectionId)
+  const element = document.getElementById(sectionId);
   if (element) {
-    element.scrollIntoView({ behavior: 'smooth' })
+    element.scrollIntoView({ behavior: "smooth" });
   }
-}
+};
 </script>
 
 <template>
@@ -67,16 +67,22 @@ const scrollToSection = (sectionId) => {
             <h2>About Me</h2>
             <div class="section-content">
               <p>
-                <strong>Kong Lingran (孔令然)</strong> is an undergraduate student at the College of Computer Science, Sichuan University. 
-                He will complete his bachelor's degree in June 2025 and will pursue an MSc degree at The Chinese University of Hong Kong 
-                starting from September 2025. His research interests mainly focus on <strong>Multi-view Clustering</strong>.
+                <strong>Kong Lingran (孔令然)</strong> is an undergraduate
+                student at the College of Computer Science(Software Engineering), Sichuan University.
+                He will complete his bachelor's degree in June 2025 and will
+                pursue an MSc degree at The Chinese University of Hong Kong
+                starting from September 2025. His research interests mainly
+                focus on <strong>Multi-view Clustering</strong>.
               </p>
 
               <h3>Research Interests</h3>
               <ul>
                 <li>
-                  <strong>Multi-view Clustering:</strong> Developing algorithms that can effectively integrate information from multiple views 
-                  or perspectives of data, with a particular focus on incorporating Information Bottleneck theory into the clustering process.
+                  <strong>Multi-view Clustering:</strong> Developing algorithms
+                  that can effectively integrate information from multiple views
+                  or perspectives of data, with a particular focus on
+                  incorporating Information Bottleneck theory into the
+                  clustering process.
                 </li>
               </ul>
             </div>
@@ -98,7 +104,7 @@ const scrollToSection = (sectionId) => {
           <section id="publications" class="content-section">
             <h2>Publications</h2>
             <div class="section-content">
-              <p>这里添加论文发表</p>
+              <p>这里添加出版物内容</p>
             </div>
           </section>
 
@@ -108,7 +114,7 @@ const scrollToSection = (sectionId) => {
           <section id="honors" class="content-section">
             <h2>Honors and Awards</h2>
             <div class="section-content">
-              <p>这里添加荣誉奖项</p>
+              <p>这里添加荣誉和奖项内容</p>
             </div>
           </section>
 
@@ -130,20 +136,21 @@ const scrollToSection = (sectionId) => {
 <style scoped>
 .page-container {
   width: 100%;
-  min-height: 100vh;
+  min-height: calc(100vh - 144px);
+  display: flex;
+  justify-content: center;
   padding: 20px;
-  background-color: var(--body-color);
 }
 
 .content-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 20px;
   max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  gap: 24px;
+  width: 100%;
 }
 
 .info-card {
-  width: 300px;
   position: sticky;
   top: 20px;
   height: fit-content;
@@ -157,31 +164,30 @@ const scrollToSection = (sectionId) => {
 
 .basic-info {
   text-align: center;
+  margin-bottom: 16px;
 }
 
 .basic-info h2 {
   margin: 0;
-  font-size: 1.5em;
-  color: var(--text-color-1);
+  color: #333;
 }
 
 .basic-info p {
-  margin: 8px 0;
-  color: var(--text-color-2);
+  margin: 4px 0;
+  color: #666;
 }
 
 .contact-info {
-  margin-top: 16px;
+  text-align: center;
 }
 
 .contact-info p {
-  margin: 8px 0;
-  color: var(--text-color-2);
-  font-size: 0.9em;
+  margin: 4px 0;
+  color: #666;
 }
 
 .nav-menu {
-  margin-top: 16px;
+  margin-top: 20px;
 }
 
 .nav-links {
@@ -191,54 +197,42 @@ const scrollToSection = (sectionId) => {
 }
 
 .nav-links a {
-  padding: 8px 16px;
-  color: var(--text-color-2);
+  color: #333;
   text-decoration: none;
+  padding: 8px;
   border-radius: 4px;
-  transition: all 0.3s ease;
+  transition: background-color 0.3s;
 }
 
 .nav-links a:hover {
-  background-color: var(--hover-color);
-  color: var(--primary-color);
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
 .main-content {
-  flex: 1;
-  min-width: 0;
+  background: #fff;
 }
 
 .content-section {
   margin-bottom: 32px;
 }
 
-.content-section:last-child {
-  margin-bottom: 0;
-}
-
 .content-section h2 {
-  margin: 0 0 16px;
-  font-size: 1.8em;
-  color: var(--text-color-1);
-}
-
-.content-section h3 {
-  margin: 24px 0 16px;
-  font-size: 1.4em;
-  color: var(--text-color-1);
+  color: #333;
+  margin-bottom: 16px;
 }
 
 .section-content {
-  color: var(--text-color-2);
+  color: #666;
   line-height: 1.6;
 }
 
-.section-content p {
-  margin: 0 0 16px;
+.section-content h3 {
+  color: #333;
+  margin: 16px 0 8px;
 }
 
 .section-content ul {
-  margin: 0;
+  margin: 8px 0;
   padding-left: 20px;
 }
 
@@ -246,23 +240,13 @@ const scrollToSection = (sectionId) => {
   margin-bottom: 8px;
 }
 
-.section-content strong {
-  color: var(--text-color-1);
-}
-
-/* 响应式设计 */
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
   .content-layout {
-    flex-direction: column;
+    grid-template-columns: 1fr;
   }
 
   .info-card {
-    width: 100%;
     position: static;
-  }
-
-  .main-content {
-    width: 100%;
   }
 }
 </style>

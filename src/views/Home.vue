@@ -1,177 +1,179 @@
 <script setup>
-import { ref, computed, onMounted, defineAsyncComponent } from 'vue'
-import { NCard, NTag } from 'naive-ui'
-import { useRouter } from 'vue-router'
-import KanaAnna from '../assets/Kana_Anna.jpg'  // 添加图片导入
-import frontMatter from 'front-matter'
+import { ref, computed, onMounted, defineAsyncComponent } from "vue";
+import { NCard, NTag } from "naive-ui";
+import { useRouter } from "vue-router";
+import KanaAnna from "../assets/Kana_Anna.jpg"; // 添加图片导入
+import frontMatter from "front-matter";
 
 // 使用异步组件延迟加载非关键内容
-const PinnedArticles = defineAsyncComponent(() => 
-  import('../components/PinnedArticles.vue')
-)
+const PinnedArticles = defineAsyncComponent(() =>
+  import("../components/PinnedArticles.vue")
+);
 
-const router = useRouter()
-const recentArticles = ref([])
+const router = useRouter();
+const recentArticles = ref([]);
 
 const bgColors = [
-  'rgba(255, 182, 193, 0.7)',  // 粉色
-  'rgba(173, 216, 230, 0.7)',  // 浅蓝
-  'rgba(144, 238, 144, 0.7)',  // 浅绿
-  'rgba(255, 218, 185, 0.7)',  // 桃色
-  'rgba(221, 160, 221, 0.7)',  // 梅红
-  'rgba(176, 196, 222, 0.7)',  // 钢蓝
-  'rgba(255, 255, 224, 0.7)',  // 浅黄
-  'rgba(230, 230, 250, 0.7)'   // 薰衣草
-]
+  "rgba(255, 182, 193, 0.7)", // 粉色
+  "rgba(173, 216, 230, 0.7)", // 浅蓝
+  "rgba(144, 238, 144, 0.7)", // 浅绿
+  "rgba(255, 218, 185, 0.7)", // 桃色
+  "rgba(221, 160, 221, 0.7)", // 梅红
+  "rgba(176, 196, 222, 0.7)", // 钢蓝
+  "rgba(255, 255, 224, 0.7)", // 浅黄
+  "rgba(230, 230, 250, 0.7)", // 薰衣草
+];
 
 const projects = ref([
-  { 
-    title: 'Web Development',
-    description: '🎨 JavaSE | Spring Boot | MySQL | Redis | Kafka | Maven'
-    color: 'rgba(0, 0, 0, 0.2)',
+  {
+    title: "Web Development",
+    description:
+      "🎨 JavaSE | Spring Boot | MySQL | Redis | Kafka | Maven | Vue3 ",
+    color: "rgba(0, 0, 0, 0.2)",
     backgroundImage: `url(${KanaAnna})`,
-    titleColor: '#ffffff',
-    descriptionColor: '#ffffff',
+    titleColor: "#ffffff",
+    descriptionColor: "#ffffff",
     fontFamily: "'Noto Sans SC', 'Source Code Pro', sans-serif",
-    textShadow: '1px 1px 3px rgba(0, 0, 0, 0.8)',
+    textShadow: "1px 1px 3px rgba(0, 0, 0, 0.8)",
     cardContentStyle: {
-      padding: '15px'
-    }
+      padding: "15px",
+    },
   },
-  { 
-    title: 'Test Development',
-    description: '🔧  Selenium / PlayWright / Cypress / Postman / Pytest',
-    color: 'rgba(0, 0, 0, 0.2)',
-    backgroundImage: 'url(https://images.dmzj.com/resource/news/2023/08/16/1692180208566984.png)',
-    titleColor: '#ffffff',
-    descriptionColor: '#ffffff',
+  {
+    title: "Test Development",
+    description: "🔧  Selenium / PlayWright / Cypress / Postman / Pytest",
+    color: "rgba(0, 0, 0, 0.2)",
+    backgroundImage:
+      "url(https://images.dmzj.com/resource/news/2023/08/16/1692180208566984.png)",
+    titleColor: "#ffffff",
+    descriptionColor: "#ffffff",
     fontFamily: "'Noto Sans SC', sans-serif",
-    textShadow: '1px 1px 3px rgba(0, 0, 0, 0.8)',
+    textShadow: "1px 1px 3px rgba(0, 0, 0, 0.8)",
     cardContentStyle: {
-      padding: '15px'
-    }
+      padding: "15px",
+    },
   },
-  { 
-    title: '⚽ Manchester City',
-    description: 'Pride in Battle',
+  {
+    title: "⚽ Manchester City",
+    description: "Pride in Battle",
     color: bgColors[Math.floor(Math.random() * bgColors.length)],
-    hoverImage: 'url(https://mancity-oss.glossa-ai.com/wxxcc/wesite/logo.svg)',
-    titleColor: '#6CADDF',
-    descriptionColor: '#ffffff',
-    fontFamily: "'Roboto', sans-serif"
+    hoverImage: "url(https://mancity-oss.glossa-ai.com/wxxcc/wesite/logo.svg)",
+    titleColor: "#6CADDF",
+    descriptionColor: "#ffffff",
+    fontFamily: "'Roboto', sans-serif",
   },
-  { 
-    title: '🎵 Music & Game',
-    description: '万青 · 花儿乐队 · 崔健 | 消逝的光芒2 · FM2024',
-    color: 'rgba(0, 0, 0, 0.2)',  // 修改这里，添加半透明黑色遮罩
-    backgroundImage: 'url(https://theglorioblog.com/wp-content/uploads/2024/04/vlcsnap-2024-04-14-15h59m11s763.png?w=1397)',
-    titleColor: '#ffffff',
-    descriptionColor: '#ffffff',
+  {
+    title: "🎵 Music & Game",
+    description: "万青 · 花儿乐队 · 崔健 | 消逝的光芒2 · FM2024",
+    color: "rgba(0, 0, 0, 0.2)",
+    backgroundImage:
+      "url(https://theglorioblog.com/wp-content/uploads/2024/04/vlcsnap-2024-04-14-15h59m11s763.png?w=1397)",
+    titleColor: "#ffffff",
+    descriptionColor: "#ffffff",
     fontFamily: "'Noto Sans SC', 'Source Code Pro', sans-serif",
-    textShadow: '1px 1px 3px rgba(0, 0, 0, 0.8)',
+    textShadow: "1px 1px 3px rgba(0, 0, 0, 0.8)",
     cardContentStyle: {
-      padding: '15px',
-    }
-  }
-])
+      padding: "15px",
+    },
+  },
+]);
 
 // 获取最近文章
 const loadRecentArticles = async () => {
   try {
-    const markdownFiles = import.meta.glob('../posts/**/*.md', { as: 'raw' })
-    const articles = []
+    const markdownFiles = import.meta.glob("../posts/**/*.md", { as: "raw" });
+    const articles = [];
 
     for (const path in markdownFiles) {
-      if (path.endsWith('README.md')) continue
-      
-      const content = await markdownFiles[path]()
-      const { attributes } = frontMatter(content)
-      const pathParts = path.split('/')
-      const fileName = pathParts[pathParts.length - 1]
-      const id = fileName.replace('.md', '')
-      
+      if (path.endsWith("README.md")) continue;
+
+      const content = await markdownFiles[path]();
+      const { attributes } = frontMatter(content);
+      const pathParts = path.split("/");
+      const fileName = pathParts[pathParts.length - 1];
+      const id = fileName.replace(".md", "");
+
       if (attributes.title && attributes.date) {
         articles.push({
           id,
           title: attributes.title,
-          date: attributes.date
-        })
+          date: attributes.date,
+        });
       }
     }
 
     // 按日期排序并获取最新的5篇
     recentArticles.value = articles
       .sort((a, b) => new Date(b.date) - new Date(a.date))
-      .slice(0, 5)
+      .slice(0, 5);
   } catch (error) {
-    console.error('Failed to load recent articles:', error)
+    console.error("Failed to load recent articles:", error);
   }
-}
+};
 
 // 处理文章点击
 const handleArticleClick = (article) => {
-  router.push(`/article/${article.id}`)
-}
+  router.push(`/article/${article.id}`);
+};
 
 const handleMouseOver = (e, project) => {
   if (project.hoverImage) {
-    e.currentTarget.style.setProperty('--hover-image', project.hoverImage)
+    e.currentTarget.style.setProperty("--hover-image", project.hoverImage);
   }
-}
+};
 
 const handleMouseOut = (e) => {
-  e.currentTarget.style.setProperty('--hover-image', 'none')
-}
+  e.currentTarget.style.setProperty("--hover-image", "none");
+};
 
 // 预加载图片列表
 const criticalImages = [
-  'https://img.moegirl.org.cn/common/thumb/e/e9/Yanami_Anna.jpg/560px-Yanami_Anna.jpg',
-  KanaAnna
-]
+  "https://img.moegirl.org.cn/common/thumb/e/e9/Yanami_Anna.jpg/560px-Yanami_Anna.jpg",
+  KanaAnna,
+];
 
 const socialIcons = [
-  '../assets/github-fill.svg',
-  '../assets/bilibili-fill.svg',
-  '../assets/QQ.svg'
-]
+  "../assets/github-fill.svg",
+  "../assets/bilibili-fill.svg",
+  "../assets/QQ.svg",
+];
 
 // 优化资源预加载
 const preloadResources = () => {
   // 预加载关键图片
-  criticalImages.forEach(src => {
-    const img = new Image()
-    img.src = src
-  })
+  criticalImages.forEach((src) => {
+    const img = new Image();
+    img.src = src;
+  });
 
   // 预加载社交图标
-  if ('requestIdleCallback' in window) {
+  if ("requestIdleCallback" in window) {
     requestIdleCallback(() => {
-      socialIcons.forEach(src => {
-        const img = new Image()
-        img.src = src
-      })
-    })
+      socialIcons.forEach((src) => {
+        const img = new Image();
+        img.src = src;
+      });
+    });
   }
 
   // 预加载关键样式
-  const linkElement = document.createElement('link')
-  linkElement.rel = 'preload'
-  linkElement.as = 'style'
-  linkElement.href = '/assets/index-C7w07H3h.css'
-  document.head.appendChild(linkElement)
-}
+  const linkElement = document.createElement("link");
+  linkElement.rel = "preload";
+  linkElement.as = "style";
+  linkElement.href = "/assets/index-C7w07H3h.css";
+  document.head.appendChild(linkElement);
+};
 
 // 优化图片错误处理
 const handleImageError = (event) => {
-  console.warn('Image failed to load:', event.target.src)
-  event.target.style.opacity = '0.5'  // 显示加载失败的视觉反馈
-}
+  console.warn("Image failed to load:", event.target.src);
+  event.target.style.opacity = "0.5"; // 显示加载失败的视觉反馈
+};
 
 onMounted(() => {
-  preloadResources()
-  loadRecentArticles()
-})
-
+  preloadResources();
+  loadRecentArticles();
+});
 </script>
 
 <template>
@@ -179,28 +181,39 @@ onMounted(() => {
     <div class="home-container">
       <div class="main-content">
         <div class="projects-grid">
-          <div v-for="(project, index) in projects" 
-               :key="project.title" 
-               class="project-card"
-               :class="{ 'odd': index % 2 === 0, 'even': index % 2 === 1 }"
-               :style="{ 
-                 background: project.color,
-                 backgroundImage: project.backgroundImage,
-                 fontFamily: project.fontFamily,
-                 height: '250px'
-               }"
-               @click="project.link ? window.open(project.link, '_blank') : null"
-               @mouseover="e => handleMouseOver(e, project)"
-               @mouseout="e => handleMouseOut(e, project)">
+          <div
+            v-for="(project, index) in projects"
+            :key="project.title"
+            class="project-card"
+            :class="{ odd: index % 2 === 0, even: index % 2 === 1 }"
+            :style="{
+              background: project.color,
+              backgroundImage: project.backgroundImage,
+              fontFamily: project.fontFamily,
+              height: '250px',
+            }"
+            @click="project.link ? window.open(project.link, '_blank') : null"
+            @mouseover="(e) => handleMouseOver(e, project)"
+            @mouseout="(e) => handleMouseOut(e, project)"
+          >
             <div class="card-content" :style="project.cardContentStyle">
-              <h3 :style="{ 
-                color: project.titleColor || '#333',
-                textShadow: project.textShadow
-              }">{{ project.title }}</h3>
-              <p class="description" :style="{ 
-                color: project.descriptionColor || '#666',
-                textShadow: project.textShadow
-              }">{{ project.description }}</p>
+              <h3
+                :style="{
+                  color: project.titleColor || '#333',
+                  textShadow: project.textShadow,
+                }"
+              >
+                {{ project.title }}
+              </h3>
+              <p
+                class="description"
+                :style="{
+                  color: project.descriptionColor || '#666',
+                  textShadow: project.textShadow,
+                }"
+              >
+                {{ project.description }}
+              </p>
             </div>
           </div>
         </div>
@@ -219,11 +232,20 @@ onMounted(() => {
 
       <div class="sidebar-container">
         <n-card class="profile-card">
-          <div class="title" style="text-align: center; font-family: 'Noto Sans JP', sans-serif; background: linear-gradient(to right, #00f, #0ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+          <div
+            class="title"
+            style="
+              text-align: center;
+              font-family: 'Noto Sans JP', sans-serif;
+              background: linear-gradient(to right, #00f, #0ff);
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+            "
+          >
             Ziqiu's Blog
           </div>
           <div class="about-content">
-            <img 
+            <img
               src="https://img.moegirl.org.cn/common/thumb/e/e9/Yanami_Anna.jpg/560px-Yanami_Anna.jpg"
               alt="八奈见杏菜个人头像 - 来自萌娘百科"
               width="250"
@@ -241,17 +263,36 @@ onMounted(() => {
             <div class="favorites">
               <p>
                 我永远喜欢
-                <a href="https://mzh.moegirl.org.cn/%E5%B1%B1%E7%94%B0%E6%9D%8F%E5%A5%88" target="_blank">山田杏奈(Yamada Anna)</a>
+                <a
+                  href="https://mzh.moegirl.org.cn/%E5%B1%B1%E7%94%B0%E6%9D%8F%E5%A5%88"
+                  target="_blank"
+                  >山田杏奈(Yamada Anna)</a
+                >
                 和
-                <a href="https://mzh.moegirl.org.cn/%E5%85%AB%E5%A5%88%E8%A7%81%E6%9D%8F%E8%8F%9C" target="_blank">八奈见杏菜(Yanami Anna)</a>
+                <a
+                  href="https://mzh.moegirl.org.cn/%E5%85%AB%E5%A5%88%E8%A7%81%E6%9D%8F%E8%8F%9C"
+                  target="_blank"
+                  >八奈见杏菜(Yanami Anna)</a
+                >
               </p>
             </div>
             <div class="social-icons">
               <a href="https://github.com/SCUklr" target="_blank">
-                <img src="../assets/github-fill.svg" alt="GitHub" class="social-icon" />
+                <img
+                  src="../assets/github-fill.svg"
+                  alt="GitHub"
+                  class="social-icon"
+                />
               </a>
-              <a href="https://space.bilibili.com/123352664?spm_id_from=333.1007.0.0" target="_blank">
-                <img src="../assets/bilibili-fill.svg" alt="Bilibili" class="social-icon" />
+              <a
+                href="https://space.bilibili.com/123352664?spm_id_from=333.1007.0.0"
+                target="_blank"
+              >
+                <img
+                  src="../assets/bilibili-fill.svg"
+                  alt="Bilibili"
+                  class="social-icon"
+                />
               </a>
               <div class="qq-container">
                 <img src="../assets/QQ.svg" alt="QQ" class="social-icon" />
@@ -340,7 +381,7 @@ onMounted(() => {
 }
 
 .project-card::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -515,7 +556,7 @@ onMounted(() => {
 }
 
 .qq-tooltip::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 100%;
   left: 50%;
@@ -588,9 +629,9 @@ onMounted(() => {
 :root {
   --text-color-1: #333;
   --text-color-3: #666;
-  --primary-color: #0a5a30;  /* 更深的绿色，提高对比度 */
+  --primary-color: #0a5a30; /* 更深的绿色，提高对比度 */
   --primary-color-hover: #036b28;
-  --tag-bg-color: rgba(10, 90, 48, 0.16);  /* 更深的背景色 */
+  --tag-bg-color: rgba(10, 90, 48, 0.16); /* 更深的背景色 */
 }
 
 /* 添加加载状态样式 */
@@ -626,4 +667,4 @@ onMounted(() => {
 .post-date {
   display: none;
 }
-</style> 
+</style>
