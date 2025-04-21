@@ -26,8 +26,8 @@ const bgColors = [
 
 const projects = ref([
   { 
-    title: 'Front-end Development',
-    description: '🎨 Vue3 / TypeScript',
+    title: 'Web Development',
+    description: '🎨 JavaSE | Spring Boot | MySQL | Redis | Kafka | Maven'
     color: 'rgba(0, 0, 0, 0.2)',
     backgroundImage: `url(${KanaAnna})`,
     titleColor: '#ffffff',
