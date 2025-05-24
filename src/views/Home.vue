@@ -246,8 +246,8 @@ onMounted(() => {
           </div>
           <div class="about-content">
             <img
-              src="https://img.moegirl.org.cn/common/thumb/e/e9/Yanami_Anna.jpg/560px-Yanami_Anna.jpg"
-              alt="八奈见杏菜个人头像 - 来自萌娘百科"
+              src="/images/YanamiAnna.jpg"
+              alt="八奈见杏菜个人头像"
               width="250"
               height="250"
               fetchpriority="high"
@@ -264,9 +264,9 @@ onMounted(() => {
               <p>
                 我永远喜欢
                 <a
-                  href="https://mzh.moegirl.org.cn/%E5%B1%B1%E7%94%B0%E6%9D%8F%E5%A5%88"
+                  href="https://mzh.moegirl.org.cn/%E6%9C%89%E9%A9%AC%E5%8A%A0%E5%A5%88#google_vignette"
                   target="_blank"
-                  >山田杏奈(Yamada Anna)</a
+                  >有马加奈(Arima Kana)</a
                 >
                 和
                 <a

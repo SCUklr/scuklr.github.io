@@ -163,10 +163,10 @@ onUnmounted(() => {
           <n-avatar 
             round 
             size="large" 
-            src="https://img.moegirl.org.cn/common/thumb/c/c1/Yanami_Anna_icon.png/198px-Yanami_Anna_icon.png"
+            src="/images/ArimaKanaAvatar.jpg"
             :img-props="{ 
               referrerpolicy: 'no-referrer',
-              alt: '八奈见杏菜头像',
+              alt: '有马加奈头像',
               loading: 'eager'
             }" 
           />

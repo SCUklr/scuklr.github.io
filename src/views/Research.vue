@@ -34,11 +34,11 @@ const scrollToSection = (sectionId) => {
               />
             </div>
             <div class="basic-info">
-              <h2>Kong Lingran</h2>
+              <h2>XXX</h2>
               <p>Sichuan University</p>
             </div>
             <div class="contact-info">
-              <p>Email: 122790291klr@gmail.com</p>
+              <p>Email: XXX</p>
               <p>Location: Chengdu, Chongqing, Hong Kong, China</p>
             </div>
           </n-space>
@@ -67,7 +67,7 @@ const scrollToSection = (sectionId) => {
             <h2>About Me</h2>
             <div class="section-content">
               <p>
-                <strong>Kong Lingran (孔令然)</strong> is an undergraduate
+                <strong>XXX</strong> is an undergraduate
                 student at the College of Computer Science(Software Engineering), Sichuan University.
                 He will complete his bachelor's degree in June 2025 and will
                 pursue an MSc degree at The Chinese University of Hong Kong
