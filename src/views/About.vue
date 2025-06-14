@@ -56,9 +56,7 @@ import { NCard, NTimeline, NTimelineItem, NDivider } from "naive-ui";
 
           <h2>时间线</h2>
           <n-timeline>
-            <n-timeline-item type="success" title="2025.2-">
-              开始多模态聚类科研项目
-            </n-timeline-item>
+            
             <n-timeline-item type="success" title="2024.7-2024.9">
               腾讯（实娱商管）前端实习
             </n-timeline-item>
