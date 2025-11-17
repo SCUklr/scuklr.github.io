@@ -9,47 +9,48 @@ import { NCard, NTimeline, NTimelineItem, NDivider } from "naive-ui";
         <div class="about-content">
           <h1 class="main-title">About me</h1>
 
-          <h2 class="section-title">教育背景 (Education Background)</h2>
+          <h2 class="section-title">Education</h2>
           <div class="school-info">
+            <div class="school-info">
             <div class="school-header">
-              <h2>四川大学 (Sichuan University)</h2>
+              <h2>The Chinese University of Hong Kong(香港中文大学)</h2>
+              <span class="date">2025.9-2026.10</span>
+            </div>
+            <div class="degree-info">
+              <span class="major">Information Engineering</span>
+              <span class="degree">Master of Science</span>
+            </div>
+          </div>
+            <div class="school-header">
+              <h2>Sichuan University(四川大学)</h2>
               <span class="date">2021.9-2025.6</span>
             </div>
             <div class="degree-info">
-              <span class="major">软件工程 (Software Engineering)</span>
-              <span class="degree">工学学士 (Bachelor of Engineering)</span>
+              <span class="major">Software Engineering</span>
+              <span class="degree">Bachelor of Engineering</span>
             </div>
           </div>
 
-          <div class="school-info">
-            <div class="school-header">
-              <h2>香港中文大学 (The Chinese University of Hong Kong)</h2>
-              <span class="date">2025.9-2026</span>
-            </div>
-            <div class="degree-info">
-              <span class="major">信息工程 (Information Engineering)</span>
-              <span class="degree">理学硕士 (Master of Science)</span>
-            </div>
-          </div>
+          
 
           <n-divider />
 
-          <h2 class="section-title">技术栈</h2>
+          <h2 class="section-title">Development skills</h2>
           <div class="skills">
             <p>
-              <strong>后端开发(Backend):</strong>
+              <strong>Backend:</strong>
               <strong
-                >JavaSE | Spring Boot | MySQL | Redis | Kafka | Maven</strong
+                >JavaSE | Spring Boot | MySQL | Redis | RabbitMQ</strong
               >
             </p>
             <p>
-              <strong>前端开发(Frontend):</strong> <strong>Vue3</strong>, HTML,
+              <strong>Frontend:</strong> <strong>Vue3</strong>, HTML,
               CSS, JavaScript
             </p>
-            <p>
+            <!-- <p>
               <strong>测试开发(Test Development):</strong>
               <strong>Selenium, Cypress</strong>, Apifox
-            </p>
+            </p> -->
           </div>
 
           <n-divider />

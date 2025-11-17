@@ -26,8 +26,6 @@ const routes = [
     component: Article
   },
   {
-  
-  {
     path: '/about',
     name: 'About',
     component: About
