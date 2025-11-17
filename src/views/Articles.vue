@@ -99,9 +99,10 @@ const handleSearch = () => {
 }
 
 // 防抖：当用户输入时延迟更新路由 query，使搜索更即时且不会频繁导航
-watch(searchKeyword, (val, old) => {
-  // don't trigger when searchKeyword is set from route.query watcher
-  if (route.query.search === val) return
+watch(searchKeyword, (val) => {
+  // 防止当 route.query.search 与输入相同时重复触发替换
+  const routeSearch = route.query.search ? String(route.query.search) : ''
+  if (routeSearch === String(val || '')) return
   page.value = 1
   if (_searchDebounceTimer) clearTimeout(_searchDebounceTimer)
   _searchDebounceTimer = setTimeout(() => {
@@ -142,7 +143,7 @@ watch(
       page.value = parseInt(newQuery.page)
     }
     if (newQuery.search !== undefined) {
-      searchKeyword.value = newQuery.search
+      searchKeyword.value = newQuery.search ? String(newQuery.search) : ''
     }
   },
   { immediate: true }
