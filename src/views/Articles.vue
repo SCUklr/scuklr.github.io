@@ -36,13 +36,31 @@ const preloadArticles = async () => {
     const data = res.data || []
     // 后端返回的可能包含 created_at 或 date 字段
     allArticles.value = data
-      .map(item => ({
-        id: String(item.id),
-        title: item.title,
-        date: item.created_at || item.date || item.createdAt || null,
-        tags: item.tags || [],
-        description: item.description || item.desc || ''
-      }))
+      .map(item => {
+        // 处理 tags：后端返回的可能是 ["['标签']"] 这种格式
+        let tags = []
+        if (item.tags && Array.isArray(item.tags)) {
+          tags = item.tags.flatMap(tag => {
+            if (typeof tag === 'string') {
+              // 尝试解析 "['标签']" 这种格式
+              try {
+                const parsed = JSON.parse(tag.replace(/'/g, '"'))
+                return Array.isArray(parsed) ? parsed : [tag]
+              } catch {
+                return [tag]
+              }
+            }
+            return [tag]
+          })
+        }
+        return {
+          id: String(item.id),
+          title: item.title,
+          date: item.created_at || item.date || item.createdAt || null,
+          tags: tags,
+          description: item.description || item.desc || ''
+        }
+      })
       .filter(Boolean)
       .sort((a, b) => new Date(b.date) - new Date(a.date))
     isLoading.value = false
@@ -115,17 +133,6 @@ watch(searchKeyword, (val) => {
     })
   }, 400)
 })
-
-// 在路由变化时重新加载文章
-watch(
-  () => route.path,
-  () => {
-    if (route.path === '/articles') {
-      preloadArticles()
-    }
-  },
-  { immediate: true }
-)
 
 // 在组件挂载时加载文章
 onMounted(() => {
