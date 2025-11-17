@@ -6,7 +6,7 @@ import axios from 'axios'
 const baseURL = import.meta.env.VITE_API_BASE || (
   import.meta.env.DEV
     ? 'http://localhost:8000/api'
-    : 'https://blog-api.onrender.com/api'  // 替换为你的 Render API URL
+    : 'https://blog-api-81lt.onrender.com/api'
 )
 
 const api = axios.create({
