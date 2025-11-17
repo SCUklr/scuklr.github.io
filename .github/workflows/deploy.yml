@@ -39,6 +39,7 @@ jobs:
         run: npm run build
         env:
           NODE_ENV: production
+          VITE_API_BASE: https://blog-api-81lt.onrender.com/api
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
