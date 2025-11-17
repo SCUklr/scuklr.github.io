@@ -26,10 +26,7 @@ const routes = [
     component: Article
   },
   {
-    path:'/research',
-    name:'Research',
-    component: () => import('../views/Research.vue')
-  },
+  
   {
     path: '/about',
     name: 'About',

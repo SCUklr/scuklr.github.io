@@ -3,8 +3,7 @@ export const ROUTE_MAP = {
   'home': '/',
   'articles': '/articles',
   'social': '/social',
-  'about': '/about',
-  'research': '/research'
+  'about': '/about'
 }
 
 // 导航菜单配置
@@ -23,11 +22,6 @@ export const MENU_OPTIONS = [
     label: '友链',
     key: 'social',
     icon: 'PeopleOutline'
-  },
-  {
-    label: '科研',
-    key: 'research',
-    icon: 'research'
   },
   {
     label: '关于我',

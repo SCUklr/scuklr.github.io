@@ -22,7 +22,6 @@ import homeIcon from '@/assets/icon/首页.svg'
 import articleIcon from '@/assets/icon/文章.svg'
 import linkIcon from '@/assets/icon/链接.svg'
 import aboutIcon from '@/assets/icon/用户.svg'
-import researchIcon from '@/assets/icon/科研.svg'
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import backgroundImage from '@/assets/background/wallhaven-d69eom.jpg'
@@ -121,7 +120,6 @@ const menuOptions = MENU_OPTIONS.map(option => {
     BookOutline: articleIcon,
     PeopleOutline: linkIcon,
     PersonOutline: aboutIcon,
-    research: researchIcon  // 添加科研图标映射
   }
   return {
     ...option,
