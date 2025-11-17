@@ -36,6 +36,11 @@ const routes = [
     component: Social
   },
   {
+    path: '/admin',
+    name: 'Admin',
+    component: () => import('../views/Admin.vue')
+  },
+  {
     path: '/:pathMatch(.*)*',
     redirect: '/'
   }

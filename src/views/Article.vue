@@ -1,9 +1,9 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { NCard, NTag, NSpace, NButton } from 'naive-ui'
-import frontMatter from 'front-matter'
 import { marked } from 'marked'
+import api from '../api'
 
 const route = useRoute()
 const router = useRouter()
@@ -20,26 +20,18 @@ const tagTypeMap = {
 onMounted(async () => {
   const articleId = route.params.id
   try {
-    // 动态导入对应的 Markdown 文件
-    const markdownFiles = import.meta.glob('../posts/**/*.md', { as: 'raw' })
-    // 更精确的文件匹配
-    const matchingFile = Object.keys(markdownFiles).find(path => {
-      const pathParts = path.split('/')
-      const fileName = pathParts[pathParts.length - 1]
-      return fileName === `${articleId}.md`
-    })
-    
-    if (matchingFile) {
-      const content = await markdownFiles[matchingFile]()
-      const { attributes, body } = frontMatter(content)
-      
+    // 从后端 API 获取文章
+    const res = await api.get(`/posts/${articleId}`)
+    if (res.status === 200) {
+      const data = res.data
+      // 假设后端存储 content 为 Markdown 文本
       article.value = {
-        ...attributes,
-        content: marked(body)  // 将 Markdown 转换为 HTML
+        ...data,
+        content: marked(data.content || '')
       }
     } else {
       console.error('Article not found:', articleId)
-      router.push('/404')  // 重定向到 404 页面
+      router.push('/404')
     }
   } catch (error) {
     console.error('Failed to load article:', error)

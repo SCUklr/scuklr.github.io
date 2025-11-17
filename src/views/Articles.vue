@@ -2,7 +2,8 @@
 import { ref, computed, onMounted, watch } from 'vue'
 import { NCard, NPagination, NTime, NTag, NSpace, NInput, NSpin } from 'naive-ui'
 import { useRouter, useRoute } from 'vue-router'
-import frontMatter from 'front-matter'
+import api from '../api'
+import { onBeforeUnmount } from 'vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -12,6 +13,11 @@ const searchKeyword = ref('')
 const page = ref(parseInt(route.query.page) || 1)
 const pageSize = 5
 const isLoading = ref(true)  // 添加加载状态
+let _searchDebounceTimer = null
+
+onBeforeUnmount(() => {
+  if (_searchDebounceTimer) clearTimeout(_searchDebounceTimer)
+})
 
 // 标签类型到颜色的映射
 const tagTypeMap = {
@@ -24,61 +30,21 @@ const tagTypeMap = {
 // 预加载文章列表
 const preloadArticles = async () => {
   try {
-    console.log('开始加载文章...')
-    const markdownFiles = import.meta.glob(['../posts/**/*.md'], { 
-      eager: true,  // 改为 eager 模式
-      query: '?raw',
-      import: 'default'
-    })
-    console.log('找到的markdown文件:', Object.keys(markdownFiles))
-    
-    // 使用 Promise.all 并行加载所有文章
-    const loadPromises = Object.entries(markdownFiles).map(async ([path, content]) => {
-      console.log('正在处理文件:', path)
-      if (path.endsWith('README.md')) {
-        console.log('跳过 README.md')
-        return null
-      }
-      
-      try {
-        if (!content || content.trim() === '') {
-          console.log('文件内容为空:', path)
-          return null
-        }
-
-        const { attributes } = frontMatter(content)
-        console.log('解析的 front-matter:', path, attributes)
-        const pathParts = path.split('/')
-        const fileName = pathParts[pathParts.length - 1]
-        const id = fileName.replace('.md', '')
-        
-        if (!attributes.title || !attributes.date) {
-          console.log('文章缺少必要的 front-matter:', path, attributes)
-          return null
-        }
-
-        const article = {
-          id,
-          title: attributes.title,
-          date: attributes.date,
-          tags: attributes.tags || [],
-          description: attributes.description || '暂无描述'
-        }
-        console.log('成功加载文章:', article)
-        return article
-      } catch (error) {
-        console.error(`处理文章出错 ${path}:`, error)
-        return null
-      }
-    })
-
-    const results = await Promise.all(loadPromises)
-    console.log('所有文章加载结果:', results)
-    allArticles.value = results
-      .filter(Boolean)  // 过滤掉 null 值
+    // 从后端 API 获取文章列表
+    isLoading.value = true
+    const res = await api.get('/posts')
+    const data = res.data || []
+    // 后端返回的可能包含 created_at 或 date 字段
+    allArticles.value = data
+      .map(item => ({
+        id: String(item.id),
+        title: item.title,
+        date: item.created_at || item.date || item.createdAt || null,
+        tags: item.tags || [],
+        description: item.description || item.desc || ''
+      }))
+      .filter(Boolean)
       .sort((a, b) => new Date(b.date) - new Date(a.date))
-    
-    console.log('最终加载的文章列表:', allArticles.value)
     isLoading.value = false
   } catch (error) {
     console.error('加载文章失败:', error)
@@ -131,6 +97,23 @@ const handleSearch = () => {
     }
   })
 }
+
+// 防抖：当用户输入时延迟更新路由 query，使搜索更即时且不会频繁导航
+watch(searchKeyword, (val, old) => {
+  // don't trigger when searchKeyword is set from route.query watcher
+  if (route.query.search === val) return
+  page.value = 1
+  if (_searchDebounceTimer) clearTimeout(_searchDebounceTimer)
+  _searchDebounceTimer = setTimeout(() => {
+    router.replace({
+      path: '/articles',
+      query: {
+        page: 1,
+        ...(val ? { search: val } : {})
+      }
+    })
+  }, 400)
+})
 
 // 在路由变化时重新加载文章
 watch(
