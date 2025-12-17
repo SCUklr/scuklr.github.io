@@ -1,0 +1,64 @@
+# Jekyll 站点配置
+title: SCUklr's Blog
+description: 技术分享与生活记录
+author: SCUklr
+email: your-email@example.com
+url: "https://scuklr.github.io"
+baseurl: ""
+
+# 构建设置
+markdown: kramdown
+# theme: minima  # 注释掉主题，使用自定义样式
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Kramdown 配置
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    block:
+      line_numbers: true
+
+# 永久链接格式
+permalink: /posts/:year/:month/:day/:title/
+
+# 分页设置
+paginate: 10
+paginate_path: "/page:num/"
+
+# 排除文件
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - server/
+  - scripts/
+  - README.md
+
+# 包含文件
+include:
+  - _pages
+
+# 默认front matter
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      author: "SCUklr"
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "page"
+
+# 时区设置
+timezone: Asia/Shanghai
