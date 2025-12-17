@@ -6,14 +6,12 @@ permalink: /about/
 
 ## 👋 你好！
 
-我是一名往测试方向转的原前端开发工程师。
+I am a Backend Developer from China, pursuing Msc Degree in HKSAR now. 
 
 ## 💼 技能领域
 
-- **前端开发**：Vue3、JavaScript、TypeScript
-- **自动化测试**：Selenium、Playwright、Pytest
-- **测试开发**：自动化测试CI/CD
-- **研究方向**：深度学习、多视图聚类
+- **后端开发**：Java、SpringBoot、MySQL、Redis、RabbitMQ
+- **Android**：Kotlin
 
 ## 📝 博客内容
 

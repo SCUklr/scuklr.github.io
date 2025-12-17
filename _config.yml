@@ -2,7 +2,7 @@
 title: SCUklr's Blog
 description: 技术分享与生活记录
 author: SCUklr
-email: your-email@example.com
+email: 122790291klr@gmail.com
 url: "https://scuklr.github.io"
 baseurl: ""
 
@@ -13,6 +13,7 @@ plugins:
   - jekyll-feed
   - jekyll-seo-tag
   - jekyll-sitemap
+  - jekyll-paginate
 
 # Kramdown 配置
 kramdown:
